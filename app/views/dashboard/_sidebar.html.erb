@@ -1,0 +1,50 @@
+<aside id="sidebar" class="bg-azul text-yellow min-vh-100 d-flex flex-column p-3 transition-all align-items-start" style="width: 4rem;">
+  <div class="d-flex align-items-center justify-content-between w-100 mb-4">
+    <button id="toggleSidebar" class="btn btn-sm btn-outline-secondary text-yellow">
+      <i class="bi bi-list"></i>
+    </button>
+    <span class="fw-bold d-none sidebar-expanded">Condo+</span>
+  </div>
+
+  <nav class="nav flex-column gap-2 mt-2 w-100">
+    <%= link_to dashboard_path, class: "nav-link text-yellow d-flex align-items-center sidebar-link" do %>
+      <i class="bi bi-speedometer2"></i>
+      <span class="ms-2 d-none sidebar-expanded">Dashboard</span>
+    <% end %>
+
+    <%= link_to access_control_path, class: "nav-link text-yellow d-flex align-items-center sidebar-link" do %>
+      <i class="bi bi-gear"></i>
+      <span class="ms-2 d-none sidebar-expanded">Configuração</span>
+    <% end %>
+
+    <%= link_to real_estate_path, class: "nav-link text-yellow d-flex align-items-center sidebar-link" do %>
+      <i class="bi bi-building"></i>
+      <span class="ms-2 d-none sidebar-expanded">Imobiliárias Parceiras</span>
+    <% end %>
+
+    <%= link_to condominiums_path, class: "nav-link text-yellow d-flex align-items-center sidebar-link" do %>
+      <i class="bi bi-houses"></i>
+      <span class="ms-2 d-none sidebar-expanded">Condomínios</span>
+    <% end %>
+
+    <%= link_to managers_path, class: "nav-link text-yellow d-flex align-items-center sidebar-link" do %>
+      <i class="bi bi-person-check"></i>
+      <span class="ms-2 d-none sidebar-expanded">Síndicos</span>
+    <% end %>
+
+    <%= link_to chat_path, class: "nav-link text-yellow d-flex align-items-center sidebar-link" do %>
+      <i class="bi bi-chat-dots"></i>
+      <span class="ms-2 d-none sidebar-expanded">Mensageria</span>
+    <% end %>
+
+    <%= link_to billing_path, class: "nav-link text-yellow d-flex align-items-center sidebar-link" do %>
+      <i class="bi bi-credit-card"></i>
+      <span class="ms-2 d-none sidebar-expanded">Monetização</span>
+    <% end %>
+
+    <%= link_to logout_path, method: :delete, class: "nav-link text-yellow d-flex align-items-center sidebar-link mt-auto" do %>
+      <i class="bi bi-box-arrow-right"></i>
+      <span class="ms-2 d-none sidebar-expanded">Sair</span>
+    <% end %>
+  </nav>
+</aside>

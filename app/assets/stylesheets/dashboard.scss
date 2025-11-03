@@ -1,0 +1,29 @@
+body {
+  color: #031149;
+}
+
+.card {
+  transition: all 0.2s ease-in-out;
+  color: #031149;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.bg-azul {
+  background-color: #031149 !important;
+}
+
+.text-yellow {
+  color: #e9c42f !important;
+}
+
+.text-blue {
+  color: #031149 !important;
+}
+
+.text-blue-muted {
+  color: #031149ab !important;
+}

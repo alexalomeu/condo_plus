@@ -1,0 +1,23 @@
+.card {
+  border-radius: 1rem;
+}
+
+.btn-primary {
+  background-color: #031149;
+  border-color: #031149;
+}
+
+.btn-primary:hover {
+  background-color: #041d80;
+  border-color: #041d80;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+@media (max-width: 991px) {
+  .vh-100 {
+    height: auto !important;
+  }
+}
