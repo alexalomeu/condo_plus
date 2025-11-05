@@ -25,23 +25,34 @@
             <tr id="profile-row-<%= profile.id %>">
               <td><%= profile.name %></td>
               <td>
-                <span class="badge <%= profile.is_administrator ? 'bg-primary' : 'bg-secondary' %>">
+                <span class="badge px-3 py-2 rounded-3 <%= profile.is_administrator ? 'bg-primary' : 'bg-secondary' %>">
                   <%= profile.is_administrator ? 'SIM' : 'NÃO' %>
                 </span>
               </td>
               <td>
-                <span class="badge <%= profile.is_active ? 'bg-success' : 'bg-secondary' %>">
+                <span class="badge px-3 py-2 rounded-3 <%= profile.is_active ? 'bg-primary' : 'bg-secondary' %>">
                   <%= profile.is_active ? 'Ativo' : 'Inativo' %>
                 </span>
               </td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#profileModal"
-                        onclick="editProfile(<%= profile.to_json.html_safe %>)">
+              <td class="text-end d-flex justify-content-end gap-2">
+                <button
+                  class="btn btn-outline-primary rounded-3 p-2 d-flex align-items-center justify-content-center"
+                  style="width: 40px; height: 40px;"
+                  data-bs-toggle="modal"
+                  data-bs-target="#profileModal"
+                  onclick="editProfile(<%= profile.to_json.html_safe %>)">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <%= button_to 'Excluir', profiles_path(profile), method: :delete,
-                    class: 'btn btn-sm btn-danger', data: { confirm: 'Tem certeza?' } %>
+
+                <%= button_to profiles_path(profile), method: :delete,
+                      class: 'btn btn-danger rounded-3 p-2 d-flex align-items-center justify-content-center',
+                      style: "width: 40px; height: 40px; display: inline-flex;",
+                      form: { style: 'display:inline-flex; margin:0;' },
+                      data: { confirm: 'Tem certeza?' } do %>
+                  <i class="bi bi-trash"></i>
+                <% end %>
               </td>
+
             </tr>
           <% end %>
         </tbody>

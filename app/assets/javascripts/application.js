@@ -18,4 +18,24 @@
 import "bootstrap"
 import "./sidebar"
 
+import { createIcons, LayoutDashboard, Settings, Building2, UserCheck, MessageSquare, CreditCard, LogOut, Building, Menu, X } from "lucide";
+
+document.addEventListener("turbo:load", () => {
+  createIcons({
+    icons: {
+      LayoutDashboard,
+      Settings,
+      Building2,
+      UserCheck,
+      MessageSquare,
+      CreditCard,
+      LogOut,
+      Building,
+      Menu,
+      X,
+    },
+  });
+});
+
+
 

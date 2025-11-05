@@ -21,10 +21,6 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
-.bg-azul {
-  background-color: #031149 !important;
-}
-
 .text-yellow {
   color: #e9c42f !important;
 }
@@ -39,5 +35,27 @@ body {
 
 .bg-azul-muted {
   background-color: #0311492e !important;
+}
+
+.bg-primary {
+  background-color: #031149 !important;
+}
+
+.bg-secondary {
+  background-color: #e9c42f !important;
+  color: #031149 !important;
+}
+
+.btn-outline-primary {
+  color: #031149 !important;
+  border-color: #031149 !important;
+}
+
+.lucide {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 2;
+  vertical-align: middle;
 }
 
