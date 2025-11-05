@@ -1,0 +1,56 @@
+<div class="container my-5">
+  <div class="mb-4">
+    <h1 class="display-4 text-azul">Configuração</h1>
+    <p class="text-blue-muted">Gerencie usuários e permissões</p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Card Perfis -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm cursor-pointer" onclick="window.location='<%= profiles_path %>'">
+        <div class="card-body d-flex align-items-center">
+          <div class="me-3 bg-azul-muted text-white p-3 d-flex align-items-center justify-content-center" style="border-radius: 25%; width: 60px; height: 60px;">
+            <i class="bi-gear-fill fs-3 text-blue"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="card-title mb-1">Perfis</h5>
+            <p class="card-text mb-2 text-blue-muted">Gerencie perfis de acesso e suas permissões</p>
+            <a href="<%= profiles_path %>" class="btn text-blue p-0">Acessar →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Administradores -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm cursor-pointer" onclick="window.location='<%= administrators_path %>'">
+        <div class="card-body d-flex align-items-center">
+          <div class="me-3 bg-azul-muted text-white p-3 d-flex align-items-center justify-content-center" style="border-radius: 25%; width: 60px; height: 60px;">
+            <i class="bi-people-fill fs-3 text-blue"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="card-title mb-1">Administradores</h5>
+            <p class="card-text mb-2 text-blue-muted">Gerencie os administradores do sistema</p>
+            <a href="<%= administrators_path %>" class="btn text-blue p-0">Acessar →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Atribuições -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm cursor-pointer" onclick="window.location='<%= assignments_path %>'">
+        <div class="card-body d-flex align-items-center">
+          <div class="me-3 bg-azul-muted text-white p-3 d-flex align-items-center justify-content-center" style="border-radius: 25%; width: 60px; height: 60px;">
+            <i class="bi-diagram-3-fill fs-3 text-blue"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="card-title mb-1">Atribuições</h5>
+            <p class="card-text mb-2 text-blue-muted">Gerencie e faça as atribuições entre os usuários</p>
+            <a href="<%= assignments_path %>" class="btn text-blue p-0">Acessar →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

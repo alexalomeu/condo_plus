@@ -21,12 +21,28 @@
     <%= javascript_include_tag "application" %>
   </head>
 
-  <body class="bg-light d-flex">
-    <%= render "sidebar" %>
+  <body class="d-flex flex-column vh-100">
+    <div class="d-flex flex-grow-1">
+      <!-- Sidebar -->
+      <aside class="bg-azul text-white d-flex flex-column">
+        <%= render "dashboard/sidebar" %>
+      </aside>
 
-    <main class="flex-grow-1 p-4">
-      <%= yield %>
-    </main>
+      <!-- Main area -->
+      <div class="flex-grow-1 d-flex flex-column">
+        <!-- Header -->
+        <header class="d-flex align-items-center justify-content-end border-bottom shadow-sm px-4" style="height: 4rem; background-color: var(--bs-card-bg);">
+          <div class="ms-auto">
+            <%= image_tag "condo-logo.png", alt: "Condo+", height: "40", class: "d-block" %>
+          </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="flex-grow-1 p-4" style="background-color: rgba(0,0,0,0.03); overflow:auto;">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script
