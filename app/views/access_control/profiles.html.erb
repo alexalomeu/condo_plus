@@ -1,2 +1,136 @@
-<h1>AccessControl#profiles</h1>
-<p>Find me in app/views/access_control/profiles.html.erb</p>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold">Perfis</h1>
+      <p class="text-muted mb-0">Gerencie perfis e permissões</p>
+    </div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profileModal" onclick="resetProfileForm()">
+      <i class="bi bi-plus"></i> Novo Perfil
+    </button>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Administrador?</th>
+            <th>Status</th>
+            <th class="text-end">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="profiles-table-body">
+          <% @profiles.each do |profile| %>
+            <tr id="profile-row-<%= profile.id %>">
+              <td><%= profile.name %></td>
+              <td>
+                <span class="badge <%= profile.is_administrator ? 'bg-primary' : 'bg-secondary' %>">
+                  <%= profile.is_administrator ? 'SIM' : 'NÃO' %>
+                </span>
+              </td>
+              <td>
+                <span class="badge <%= profile.is_active ? 'bg-success' : 'bg-secondary' %>">
+                  <%= profile.is_active ? 'Ativo' : 'Inativo' %>
+                </span>
+              </td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#profileModal"
+                        onclick="editProfile(<%= profile.to_json.html_safe %>)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <%= button_to 'Excluir', profiles_path(profile), method: :delete,
+                    class: 'btn btn-sm btn-danger', data: { confirm: 'Tem certeza?' } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">Novo Perfil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <% if @profile %>
+          <%= form_with(model: (@profile || OpenStruct.new), local: true, id: "profile-form") do |f| %>
+            <div class="mb-3">
+              <%= f.label :name, "Nome", class: "form-label" %>
+              <%= f.text_field :name, class: "form-control", id: "profile_name" %>
+            </div>
+
+            <div class="form-check form-switch mb-3">
+              <%= f.check_box :is_administrator, class: "form-check-input", id: "is_admin_switch" %>
+              <%= f.label :is_administrator, "Administrador?", class: "form-check-label" %>
+            </div>
+
+            <div class="form-check form-switch mb-4">
+              <%= f.check_box :is_active, class: "form-check-input", id: "is_active_switch" %>
+              <%= f.label :is_active, "Ativo?", class: "form-check-label" %>
+            </div>
+
+            <h5 class="mb-3">Permissões</h5>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle text-center">
+                <thead class="table-light">
+                  <tr>
+                    <th>Recurso</th>
+                    <th>Ver</th>
+                    <th>Criar</th>
+                    <th>Editar</th>
+                    <th>Deletar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @permissions_by_resource.each do |resource, actions| %>
+                    <tr>
+                      <td class="text-start"><%= @resource_names[resource] || resource %></td>
+                      <% ["view", "create", "edit", "delete"].each do |action| %>
+                        <td>
+                          <% if actions.include?(action) %>
+                            <%= check_box_tag "profile[permissions][#{resource}_#{action}]", true,
+                              (@profile.permissions || {})["#{resource}_#{action}"],
+                              class: "form-check-input" %>
+                          <% else %>
+                            <span class="text-muted">–</span>
+                          <% end %>
+                        </td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function resetProfileForm() {
+    document.getElementById("profileModalLabel").innerText = "Novo Perfil";
+    document.getElementById("profile-form").reset();
+  }
+
+  function editProfile(profile) {
+    document.getElementById("profileModalLabel").innerText = "Editar Perfil";
+    document.getElementById("profile_name").value = profile.name;
+    document.getElementById("is_admin_switch").checked = profile.is_administrator;
+    document.getElementById("is_active_switch").checked = profile.is_active;
+  }
+</script>
