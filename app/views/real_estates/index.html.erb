@@ -1,20 +1,23 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="fw-bold">Imobiliárias</h2>
+    <div>
+      <h2 class="fw-bold">Imobiliárias</h2>
+      <small class="text-blue-muted">Cadastro e gestão de imobiliárias</small>
+    </div>
     <%= link_to "Nova Imobiliária", new_real_estate_path, class: "btn btn-primary rounded-3 px-4 py-2 fw-semibold" %>
   </div>
 
   <div class="card shadow-sm border-0 rounded-4 p-4">
     <table class="table align-middle">
       <thead class="border-bottom">
-        <tr class="text-secondary small text-uppercase">
-          <th>Logo</th>
-          <th>Nome</th>
-          <th>CNPJ</th>
-          <th>Contato</th>
-          <th>Monetização Total</th>
-          <th>Monetização Pendente</th>
-          <th class="text-center">Ações</th>
+        <tr class="small text-uppercase">
+          <th class="text-blue-muted">Logo</th>
+          <th class="text-blue-muted">Nome</th>
+          <th class="text-blue-muted">CNPJ</th>
+          <th class="text-blue-muted">Contato</th>
+          <th class="text-blue-muted">Monetização Total</th>
+          <th class="text-blue-muted">Monetização Pendente</th>
+          <th class="text-center text-blue-muted">Ações</th>
         </tr>
       </thead>
 
@@ -31,19 +34,19 @@
             </td>
 
             <!-- Nome -->
-            <td class="fw-semibold"><%= real_estate.name %></td>
+            <td class="text-blue"><%= real_estate.name %></td>
 
             <!-- CNPJ -->
-            <td class="text-blue-muted"><%= real_estate.cnpj.presence || "-" %></td>
+            <td class="text-blue"><%= real_estate.cnpj.presence || "-" %></td>
 
             <!-- Contato -->
-            <td class="text-blue-muted"><%= real_estate.contact.presence || "-" %></td>
+            <td class="text-blue"><%= real_estate.contact.presence || "-" %></td>
 
             <!-- Monetização -->
-            <td class="fw-bold">
+            <td class="text-blue">
               R$ <%= number_with_delimiter(real_estate.total_monetization.to_i, delimiter: ".") %>,00
             </td>
-            <td class="fw-bold text-warning">
+            <td class="text-blue">
               R$ <%= number_with_delimiter(real_estate.pending_monetization.to_i, delimiter: ".") %>,00
             </td>
 
@@ -63,7 +66,7 @@
                 <% end %>
 
                 <!-- Relatório -->
-                <%= link_to revenue_real_estate_path(real_estate), class: "btn btn-outline-secondary px-3 py-1 rounded-3 fw-semibold" do %>
+                <%= link_to revenue_real_estate_path(real_estate), class: "btn btn-outline-primary px-3 py-1 rounded-3 fw-semibold" do %>
                   Relatório
                 <% end %>
               </div>

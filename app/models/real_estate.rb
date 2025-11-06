@@ -5,11 +5,19 @@ class RealEstate < ApplicationRecord
 
   validates :name, :cnpj, presence: true
 
+  # Soma total de monetização (todas as receitas dos condomínios)
   def total_monetization
-    10000 # valor fixo de exemplo
+    condominiums.joins(:revenues).sum("revenues.monetization")
   end
 
+  # Soma total de valores negociados
+  def total_negotiated
+    condominiums.joins(:revenues).sum("revenues.negotiated_value")
+  end
+
+  # Exemplo de cálculo de monetização pendente
+  # (ajuste conforme tua lógica real — aqui é só um exemplo)
   def pending_monetization
-    2500 # outro valor fixo de exemplo, se quiser
+    total_negotiated - total_monetization
   end
 end

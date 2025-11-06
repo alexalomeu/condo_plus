@@ -20,7 +20,11 @@ class RealEstatesController < ApplicationController
     end
   end
 
-  def edit; end
+ def edit
+    @real_estate = RealEstate.find(params[:id])
+    @real_estate.responsibles.build if @real_estate.responsibles.empty?
+  end
+
 
   def update
     if @real_estate.update(real_estate_params)
