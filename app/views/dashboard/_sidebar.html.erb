@@ -13,17 +13,12 @@
       <span class="mt-1 d-none sidebar-expanded text-center">Dashboard</span>
     <% end %>
 
-    <%# Configuração %>
-    <%= link_to access_control_path, class: "nav-link text-yellow align-items-center justify-content-center sidebar-link" do %>
-      <i class="bi bi-gear fs-4"></i>
-      <span class="mt-1 d-none sidebar-expanded text-center">Configuração</span>
-    <% end %>
-
     <%# Imobiliárias %>
-    <%= link_to real_estate_path, class: "nav-link text-yellow align-items-center justify-content-center sidebar-link" do %>
+    <%= link_to real_estates_path, class: "nav-link text-yellow align-items-center justify-content-center sidebar-link" do %>
       <i class="bi bi-building fs-4"></i>
       <span class="mt-1 d-none sidebar-expanded text-center">Imobiliárias Parceiras</span>
     <% end %>
+
 
     <%# Condomínios %>
     <%= link_to condominiums_path, class: "nav-link text-yellow align-items-center justify-content-center sidebar-link" do %>
@@ -53,6 +48,12 @@
     <%= link_to logout_path, method: :delete, class: "nav-link text-danger align-items-center justify-content-center sidebar-link mt-auto mb-2" do %>
       <i class="bi bi-box-arrow-right fs-4"></i>
       <span class="mt-1 d-none sidebar-expanded text-center">Sair</span>
+    <% end %>
+
+    <%# Configuração %>
+    <%= link_to access_control_path, class: "nav-link text-yellow align-items-center justify-content-center sidebar-link" do %>
+      <i class="bi bi-gear fs-4"></i>
+      <span class="mt-1 d-none sidebar-expanded text-center">Configuração</span>
     <% end %>
   </nav>
 </aside>

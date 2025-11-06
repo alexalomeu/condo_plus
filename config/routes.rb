@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'real_estates/index'
+  get 'real_estates/new'
+  get 'real_estates/create'
+  get 'real_estates/edit'
+  get 'real_estates/update'
+  get 'real_estates/destroy'
   # Página inicial (login)
   root to: "sessions#new"
 
@@ -14,6 +20,7 @@ Rails.application.routes.draw do
   get "access_control",                  to: "access_control#index",         as: :access_control
   get "access_control/profiles",         to: "access_control#profiles",      as: :profiles
   get "access_control/administrators",   to: "access_control#administrators",as: :administrators
+  delete "access_control/administrators/:id", to: "access_control#delete_admin", as: :access_control_delete_admin
   get "access_control/assignments",      to: "access_control#assignments",   as: :assignments
 
   # Imobiliárias Parceiras
@@ -30,4 +37,10 @@ Rails.application.routes.draw do
 
   # Monetização
   get "billing", to: "billing#index", as: :billing
+    
+  resources :real_estates do
+    member do
+      get :revenue
+    end
+  end
 end

@@ -1,2 +1,169 @@
-<h1>AccessControl#assignments</h1>
-<p>Find me in app/views/access_control/assignments.html.erb</p>
+<div class="container mt-4">
+  <h1 class="mb-3 fw-bold">Atribuições</h1>
+  <p class="text-muted mb-5">Gerencie os vínculos entre síndicos, condomínios e imobiliárias</p>
+
+  <div class="row g-4">
+    <!-- Síndico → Condomínio -->
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title">Atribuir Síndico ao Condomínio</h5>
+          <p class="text-muted small">Um condomínio pode ter apenas 1 síndico</p>
+
+          <div class="mb-3">
+            <label class="form-label">Síndico</label>
+            <select id="managerSelect" class="form-select">
+              <option value="">Selecione um síndico</option>
+              <% @managers.each do |m| %>
+                <option value="<%= m[:id] %>"><%= m[:name] %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="text-center my-3">
+            <i class="bi bi-arrow-right text-muted fs-4"></i>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Condomínio</label>
+            <select id="managerCondoSelect" class="form-select">
+              <option value="">Selecione um condomínio</option>
+              <% @condos.each do |c| %>
+                <option value="<%= c[:id] %>"><%= c[:name] %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <button class="btn btn-primary w-100" onclick="assignManager()">Confirmar Atribuição</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Condomínio → Imobiliária -->
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title">Atribuir Condomínio à Imobiliária</h5>
+          <p class="text-muted small">Um condomínio pode ter apenas 1 imobiliária</p>
+
+          <div class="mb-3">
+            <label class="form-label">Condomínio</label>
+            <select id="realEstateCondoSelect" class="form-select">
+              <option value="">Selecione um condomínio</option>
+              <% @condos.each do |c| %>
+                <option value="<%= c[:id] %>"><%= c[:name] %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="text-center my-3">
+            <i class="bi bi-arrow-right text-muted fs-4"></i>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Imobiliária</label>
+            <select id="realEstateSelect" class="form-select">
+              <option value="">Selecione uma imobiliária</option>
+              <% @real_estates.each do |r| %>
+                <option value="<%= r[:id] %>"><%= r[:name] %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <button class="btn btn-primary w-100" onclick="assignRealEstate()">Confirmar Atribuição</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabelas -->
+  <div class="row g-4 mt-5">
+    <!-- Vínculos Síndico → Condomínio -->
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title">Vínculos Síndico → Condomínio</h5>
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Síndico</th>
+                <th>Condomínio</th>
+                <th class="text-end">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="managerAssignmentsTable">
+              <tr><td colspan="3" class="text-center text-muted">Nenhum vínculo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vínculos Condomínio → Imobiliária -->
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title">Vínculos Condomínio → Imobiliária</h5>
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Condomínio</th>
+                <th>Imobiliária</th>
+                <th class="text-end">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="realEstateAssignmentsTable">
+              <tr><td colspan="3" class="text-center text-muted">Nenhum vínculo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS Inline (simula lógica do React) -->
+<script>
+  const managerAssignments = [];
+  const realEstateAssignments = [];
+
+  function assignManager() {
+    const manager = document.getElementById("managerSelect").value;
+    const condo = document.getElementById("managerCondoSelect").value;
+    if (!manager || !condo) {
+      alert("Selecione um síndico e um condomínio.");
+      return;
+    }
+    const table = document.getElementById("managerAssignmentsTable");
+    table.innerHTML += `
+      <tr>
+        <td>${document.querySelector("#managerSelect option:checked").text}</td>
+        <td>${document.querySelector("#managerCondoSelect option:checked").text}</td>
+        <td class='text-end'>
+          <button class='btn btn-sm btn-outline-danger' onclick='this.closest("tr").remove()'>
+            <i class='bi bi-trash'></i>
+          </button>
+        </td>
+      </tr>`;
+  }
+
+  function assignRealEstate() {
+    const condo = document.getElementById("realEstateCondoSelect").value;
+    const realEstate = document.getElementById("realEstateSelect").value;
+    if (!condo || !realEstate) {
+      alert("Selecione uma imobiliária e um condomínio.");
+      return;
+    }
+    const table = document.getElementById("realEstateAssignmentsTable");
+    table.innerHTML += `
+      <tr>
+        <td>${document.querySelector("#realEstateCondoSelect option:checked").text}</td>
+        <td>${document.querySelector("#realEstateSelect option:checked").text}</td>
+        <td class='text-end'>
+          <button class='btn btn-sm btn-outline-danger' onclick='this.closest("tr").remove()'>
+            <i class='bi bi-trash'></i>
+          </button>
+        </td>
+      </tr>`;
+  }
+</script>

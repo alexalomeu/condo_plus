@@ -1,0 +1,68 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Imobiliárias</h2>
+    <%= link_to "Nova Imobiliária", new_real_estate_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="card shadow-sm border-0 rounded-4 p-4">
+    <table class="table align-middle">
+      <thead class="border-bottom">
+        <tr class="text-secondary small">
+          <th>Logo</th>
+          <th>Nome</th>
+          <th>CNPJ</th>
+          <th>Contato</th>
+          <th>Monetização Total</th>
+          <th>Monetização Pendente</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @real_estates.each do |real_estate| %>
+          <tr class="align-middle">
+            <!-- Logo -->
+            <td>
+              <% if real_estate.logo.present? %>
+                <img src="<%= real_estate.logo %>" alt="Logo" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+              <% else %>
+                <i class="bi bi-building fs-4 text-secondary"></i>
+              <% end %>
+            </td>
+
+            <!-- Nome -->
+            <td class="fw-semibold text-dark"><%= real_estate.name %></td>
+
+            <!-- CNPJ -->
+            <td class="text-muted"><%= real_estate.cnpj %></td>
+
+            <!-- Contato -->
+            <td class="text-muted"><%= real_estate.contact %></td>
+
+            <!-- Monetização -->
+            <td class="fw-bold text-dark">R$ <%= number_with_delimiter(real_estate.total_monetization, delimiter: ".") %>,00</td>
+            <td class="fw-bold text-warning">R$ <%= number_with_delimiter(real_estate.pending_monetization, delimiter: ".") %>,00</td>
+
+            <!-- Ações -->
+            <td class="text-center">
+              <div class="d-flex justify-content-center align-items-center gap-2">
+                <%= link_to edit_real_estate_path(real_estate), class: "btn btn-outline-primary rounded-circle p-2 d-flex align-items-center justify-content-center", style: "width: 36px; height: 36px;" do %>
+                  <i class="bi bi-pencil"></i>
+                <% end %>
+
+                <%= button_to real_estate_path(real_estate), method: :delete, data: { confirm: "Tem certeza?" },
+                      class: "btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center",
+                      style: "width: 36px; height: 36px;" do %>
+                  <i class="bi bi-trash"></i>
+                <% end %>
+                  <%= link_to revenue_real_estate_path(real_estate), class: "btn btn-outline-secondary rounded-3 px-3 fw-semibold" do %>
+                    Relatório
+                  <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>

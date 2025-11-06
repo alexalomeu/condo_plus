@@ -1,2 +1,100 @@
-<h1>AccessControl#administrators</h1>
-<p>Find me in app/views/access_control/administrators.html.erb</p>
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold mb-0">Administradores</h1>
+      <p class="text-muted mb-0">Gerencie os administradores do sistema</p>
+    </div>
+    <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#adminModal">
+      <i class="bi bi-plus-lg me-2"></i>
+      Novo Administrador
+    </button>
+  </div>
+
+  <div class="card p-3 shadow-sm">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Função</th>
+          <th class="text-end">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @administrators.each do |admin| %>
+          <tr>
+            <td><%= admin.name %></td>
+            <td><%= admin.email %></td>
+            <td><%= admin.role %></td>
+            <td class="text-end">
+              <div class="d-inline-flex gap-2">
+                <!-- Botão editar -->
+                <button type="button" class="btn btn-outline-primary rounded-3 p-2 d-flex align-items-center justify-content-center"
+                        style="width: 38px; height: 38px;"
+                        data-bs-toggle="modal"
+                        data-bs-target="#adminModal"
+                        onclick="editAdmin(<%= admin.to_json.html_safe %>)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+
+                <!-- Botão deletar -->
+                <%= button_to access_control_delete_admin_path(admin.id),
+                      method: :delete,
+                      class: 'btn btn-outline-danger rounded-3 p-2 d-flex align-items-center justify-content-center',
+                      style: 'width: 38px; height: 38px;' do %>
+                  <i class="bi bi-trash"></i>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminModalLabel">Novo Administrador</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <%= form_with scope: :admin, url: "#", local: true, id: "admin-form" do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "Nome", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "Nome completo" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :email, "Email", class: "form-label" %>
+            <%= f.email_field :email, class: "form-control", placeholder: "email@exemplo.com" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :role, "Função", class: "form-label" %>
+            <%= f.select :role, ["Super Admin", "Admin", "Moderador"], {}, class: "form-select" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" form="admin-form">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function editAdmin(admin) {
+    document.getElementById('adminModalLabel').innerText = 'Editar Administrador';
+    const form = document.getElementById('admin-form');
+    form.querySelector('[name="admin[name]"]').value = admin.name;
+    form.querySelector('[name="admin[email]"]').value = admin.email;
+    form.querySelector('[name="admin[role]"]').value = admin.role;
+  }
+</script>
