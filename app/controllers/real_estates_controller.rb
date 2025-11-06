@@ -3,7 +3,7 @@ class RealEstatesController < ApplicationController
   before_action :set_real_estate, only: [:edit, :update, :destroy]
 
   def index
-    @real_estates = RealEstate.includes(:responsibles).all
+    @real_estates = RealEstate.order(:name).distinct
   end
 
   def new
@@ -35,6 +35,24 @@ class RealEstatesController < ApplicationController
     redirect_to real_estates_path, notice: 'Imobiliária removida com sucesso.'
   end
 
+  def revenue
+    @real_estate = RealEstate.find(params[:id])
+    @condominiums = @real_estate.condominiums.includes(:revenues)
+    @filtered_revenues = Revenue.joins(:condominium)
+      .where(condominiums: { real_estate_id: @real_estate.id })
+      .select(
+        'condominiums.nome AS condominium_name',
+        'revenues.unit',
+        'revenues.negotiated_value',
+        'revenues.monetization',
+        'revenues.date'
+      )
+      .order('condominiums.nome, revenues.date')
+
+    @total_negotiated   = @filtered_revenues.sum(&:negotiated_value)
+    @total_monetization = @filtered_revenues.sum(&:monetization)
+  end
+
   private
 
   def set_real_estate
@@ -46,10 +64,5 @@ class RealEstatesController < ApplicationController
       :name, :cnpj, :email, :phone,
       responsibles_attributes: [:id, :name, :email, :phone, :position, :_destroy]
     )
-  end
-
-  def revenue
-    @real_estate = RealEstate.find(params[:id])
-    @condominiums = @real_estate.condominiums.includes(:revenues)
   end
 end

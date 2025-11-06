@@ -1,10 +1,9 @@
-puts "🌇 Criando imobiliárias de exemplo..."
+Condominium.destroy_all
+RealEstate.destroy_all
+Revenue.destroy_all
 
-RealEstate.destroy_all if defined?(RealEstate)
+puts "🏢 Criando imobiliárias..."
 
-# -------------------------------
-# Imobiliárias
-# ------------------------------- 
 real_estate1 = RealEstate.create!(
   name: "Imobiliária Prime",
   cnpj: "12.345.678/0001-90",
@@ -15,6 +14,8 @@ real_estate1 = RealEstate.create!(
   responsible_phone: "(11) 91234-5678",
   responsible_email: "carlos.silva@prime.com.br"
 )
+
+puts "✅ Imobiliária criada: #{real_estate1.name}"
 
 real_estate2 = RealEstate.create!(
   name: "Imobiliária Global",
@@ -27,28 +28,195 @@ real_estate2 = RealEstate.create!(
   responsible_email: "ana.pereira@global.com.br"
 )
 
-# -------------------------------
-# Condomínios
-# -------------------------------
-condo1 = Condominium.create!(name: "Residencial Jardim das Flores", real_estate: real_estate1)
-condo2 = Condominium.create!(name: "Edifício Solar", real_estate: real_estate1)
-condo3 = Condominium.create!(name: "Condomínio Vista Verde", real_estate: real_estate1)
-condo4 = Condominium.create!(name: "Condomínio Alfa", real_estate: real_estate2)
-condo5 = Condominium.create!(name: "Residencial Beta", real_estate: real_estate2)
 
-# -------------------------------
-# Receitas / Revenues
-# -------------------------------
-Revenue.create!([
-  { real_estate: real_estate1, condominium: condo1, unit: "101", negotiated_value: 350_000, monetization: 5_000, date: "2025-01-15" },
-  { real_estate: real_estate1, condominium: condo2, unit: "202", negotiated_value: 280_000, monetization: 3_500, date: "2025-01-20" },
-  { real_estate: real_estate1, condominium: condo1, unit: "305", negotiated_value: 420_000, monetization: 6_500, date: "2024-12-10" },
-  { real_estate: real_estate1, condominium: condo2, unit: "150", negotiated_value: 310_000, monetization: 4_200, date: "2024-12-05" },
-  { real_estate: real_estate1, condominium: condo3, unit: "501", negotiated_value: 390_000, monetization: 5_500, date: "2025-02-01" },
-  { real_estate: real_estate2, condominium: condo4, unit: "101", negotiated_value: 500_000, monetization: 7_500, date: "2025-01-10" },
-  { real_estate: real_estate2, condominium: condo5, unit: "202", negotiated_value: 450_000, monetization: 6_000, date: "2025-01-18" },
-  { real_estate: real_estate2, condominium: condo4, unit: "303", negotiated_value: 480_000, monetization: 7_000, date: "2024-12-22" },
-  { real_estate: real_estate2, condominium: condo5, unit: "404", negotiated_value: 430_000, monetization: 5_800, date: "2024-12-30" }
-])
+puts "✅ Imobiliária criada: #{real_estate2.name}"
 
-puts "✅ #{RealEstate.count} imobiliárias criadas com sucesso!"
+puts "🌇 Criando condomínios de exemplo..."
+
+condominiums = [
+  {
+    real_estate: real_estate1,
+    nome: "Residencial Sol Nascente",
+    unidades_por_torre: 20,
+    nomes_torres: "Torre A, Torre B, Torre C",
+    tipo: "residencial",
+    data_construcao: "2015-06-15",
+    area_total: 15000.0,
+    area_comum: 3000.0,
+    valor_condominio: 550.50,
+    taxa_administrativa: 50.0,
+    endereco: "Rua das Flores",
+    numero: "123",
+    bairro: "Jardim das Acácias",
+    cidade: "São Paulo",
+    estado: "SP",
+    cep: "01234-567",
+    latitude: -23.550520,
+    longitude: -46.633308,
+    piscina: true,
+    churrasqueira: true,
+    playground: true,
+    academia: true,
+    estacionamento_coberto: 30,
+    estacionamento_descoberto: 10,
+    portaria_24h: true,
+    elevadores: 6,
+    email_administracao: "contato@solnascente.com",
+    telefone_administracao: "(11) 98765-4321",
+    created_at: Date.today
+  },
+  {
+    real_estate: real_estate2,
+    nome: "Edifício Horizonte Azul",
+    unidades_por_torre: 15,
+    nomes_torres: "Torre Norte, Torre Sul",
+    tipo: "residencial",
+    data_construcao: "2018-03-20",
+    area_total: 12000.0,
+    area_comum: 2500.0,
+    valor_condominio: 620.75,
+    taxa_administrativa: 55.0,
+    endereco: "Av. Central",
+    numero: "500",
+    bairro: "Centro",
+    cidade: "Rio de Janeiro",
+    estado: "RJ",
+    cep: "20000-000",
+    latitude: -22.906847,
+    longitude: -43.172896,
+    piscina: true,
+    churrasqueira: false,
+    playground: true,
+    academia: true,
+    estacionamento_coberto: 25,
+    estacionamento_descoberto: 15,
+    portaria_24h: true,
+    elevadores: 4,
+    email_administracao: "contato@horizonteazul.com",
+    telefone_administracao: "(21) 91234-5678",
+    created_at: Date.today
+  },
+  {
+    real_estate: real_estate1,
+    nome: "Condomínio Vila Verde",
+    unidades_por_torre: 10,
+    nomes_torres: "Torre Única",
+    tipo: "residencial",
+    data_construcao: "2012-11-10",
+    area_total: 8000.0,
+    area_comum: 2000.0,
+    valor_condominio: 450.0,
+    taxa_administrativa: 40.0,
+    endereco: "Rua Verde",
+    numero: "45",
+    bairro: "Vila Nova",
+    cidade: "Belo Horizonte",
+    estado: "MG",
+    cep: "30123-456",
+    latitude: -19.9245,
+    longitude: -43.9352,
+    piscina: false,
+    churrasqueira: true,
+    playground: true,
+    academia: false,
+    estacionamento_coberto: 12,
+    estacionamento_descoberto: 5,
+    portaria_24h: true,
+    elevadores: 2,
+    email_administracao: "contato@vilaverde.com",
+    telefone_administracao: "(31) 99876-5432",
+    created_at: Date.today
+  },
+  {
+    real_estate: real_estate2,
+    nome: "Residencial Mar Azul",
+    unidades_por_torre: 18,
+    nomes_torres: "Torre 1, Torre 2, Torre 3, Torre 4",
+    tipo: "residencial",
+    data_construcao: "2020-01-05",
+    area_total: 18000.0,
+    area_comum: 4000.0,
+    valor_condominio: 700.0,
+    taxa_administrativa: 60.0,
+    endereco: "Av. do Mar",
+    numero: "777",
+    bairro: "Praia do Sol",
+    cidade: "Fortaleza",
+    estado: "CE",
+    cep: "60000-000",
+    latitude: -3.71722,
+    longitude: -38.5431,
+    piscina: true,
+    churrasqueira: true,
+    playground: true,
+    academia: true,
+    estacionamento_coberto: 50,
+    estacionamento_descoberto: 20,
+    portaria_24h: true,
+    elevadores: 8,
+    email_administracao: "contato@marazul.com",
+    telefone_administracao: "(85) 91234-5678",
+    created_at: Date.today
+  },
+  {
+    real_estate: real_estate1,
+    nome: "Edifício Serra Dourada",
+    unidades_por_torre: 12,
+    nomes_torres: "Torre A, Torre B",
+    tipo: "residencial",
+    data_construcao: "2016-07-22",
+    area_total: 10000.0,
+    area_comum: 2500.0,
+    valor_condominio: 500.0,
+    taxa_administrativa: 45.0,
+    endereco: "Rua das Montanhas",
+    numero: "200",
+    bairro: "Serra",
+    cidade: "Curitiba",
+    estado: "PR",
+    cep: "80000-000",
+    latitude: -25.4284,
+    longitude: -49.2733,
+    piscina: true,
+    churrasqueira: true,
+    playground: true,
+    academia: false,
+    estacionamento_coberto: 20,
+    estacionamento_descoberto: 10,
+    portaria_24h: true,
+    elevadores: 4,
+    email_administracao: "contato@serradourada.com",
+    telefone_administracao: "(41) 98765-4321",
+    created_at: Date.today
+  }
+]
+
+
+puts "Passei por aqui"
+
+condominiums.each do |attrs|
+  Condominium.find_or_create_by!(nome: attrs[:nome]) do |condo|
+    condo.assign_attributes(attrs)
+  end
+end
+
+puts "✅ Condominios Criados com sucesso!"
+
+puts "💰 Criando receitas (revenues)..."
+
+Condominium.all.each do |c|
+  2.times do |i|
+    Revenue.create!(
+      condominium: c,
+      unit: "Unidade #{rand(1..100)}",
+      tower: "Torre #{('A'..'Z').to_a.sample}",
+      negotiated_value: rand(200_000..800_000),
+      monetization: rand(5_000..20_000),
+      date: Date.today - (i * 30)
+    )
+  end
+end
+
+puts "✅ Receitas criadas com sucesso!"
+
+puts "✅ Seed de condomínios, imobiliárias e receitas criados com sucesso!"

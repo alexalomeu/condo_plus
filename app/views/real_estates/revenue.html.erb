@@ -1,83 +1,108 @@
 <div class="container my-4">
-
+  <!-- Header -->
   <div class="d-flex align-items-center mb-4">
-    <%= link_to "Voltar", real_estates_path, class: "btn btn-outline-secondary me-3" %>
     <div class="flex-grow-1">
-      <h1 class="h3 mb-1">Relatório de Monetização - <%= @real_estate.name %></h1>
-      <small class="text-muted">Histórico de monetização por condomínio</small>
+      <h1 class="h3 mb-1 fw-bold text-dark">
+        Relatório de Monetização — <%= @real_estate.name %>
+      </h1>
+      <small class="text-muted">
+        Histórico detalhado de monetização por condomínio vinculado à imobiliária
+      </small>
     </div>
-    <button class="btn btn-primary">
-      <i class="bi bi-download me-1"></i>
-      Exportar
-    </button>
+
+    <%= button_to "#", class: "btn btn-primary d-flex align-items-center", method: :get do %>
+      <i class="bi bi-download me-2"></i>
+      Exportar Relatório
+    <% end %>
+    <%= link_to "Voltar", real_estates_path, class: "btn btn-outline-secondary me-3" %>
   </div>
 
-  <div class="card mb-4 p-3">
-    <%= form_with url: revenue_real_estate_path(@real_estate[:id]), method: :get, local: true, class: "row g-3" do %>
+  <!-- Filtros -->
+  <div class="card shadow-sm border-0 rounded-4 mb-4 p-4">
+    <%= form_with url: revenue_real_estate_path(@real_estate.id), method: :get, local: true, class: "row g-3" do %>
       <div class="col-md-4">
-        <label class="form-label">Condomínio</label>
+        <label class="form-label fw-semibold">Condomínio</label>
         <select name="condominium" class="form-select">
           <option value="all" <%= "selected" if params[:condominium] == "all" %>>Todos</option>
           <% @condominiums.each do |condo| %>
-            <option value="<%= condo %>" <%= "selected" if params[:condominium] == condo %>><%= condo %></option>
+            <option value="<%= condo.nome %>" <%= "selected" if params[:condominium] == condo.nome %>>
+              <%= condo.nome %>
+            </option>
           <% end %>
         </select>
       </div>
 
       <div class="col-md-4">
-        <label class="form-label">Data De</label>
+        <label class="form-label fw-semibold">Data Inicial</label>
         <input type="date" name="start_date" class="form-control" value="<%= params[:start_date] %>">
       </div>
 
       <div class="col-md-4">
-        <label class="form-label">Data Até</label>
+        <label class="form-label fw-semibold">Data Final</label>
         <input type="date" name="end_date" class="form-control" value="<%= params[:end_date] %>">
       </div>
 
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Filtrar</button>
+      <div class="col-12 text-end">
+        <button type="submit" class="btn btn-primary px-4 fw-semibold">
+          <i class="bi bi-funnel me-1"></i>
+          Filtrar
+        </button>
       </div>
     <% end %>
   </div>
 
-  <div class="row mb-4">
+  <!-- Indicadores principais -->
+  <div class="row mb-4 g-3">
     <div class="col-md-6">
-      <div class="card p-3 text-center">
-        <small class="text-muted">Total Monetização</small>
-        <h2 class="text-primary"><%= number_to_currency(@total_monetization, unit: "R$") %></h2>
+      <div class="card shadow-sm border-0 p-4 text-center">
+        <small class="text-muted d-block mb-1">Total de Monetização</small>
+        <h2 class="text-primary mb-0 fw-bold">
+          <%= number_to_currency(@total_monetization, unit: "R$") %>
+        </h2>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="card p-3 text-center">
-        <small class="text-muted">Valor Negociado Total</small>
-        <h2 class="text-success"><%= number_to_currency(@total_negotiated, unit: "R$") %></h2>
+      <div class="card shadow-sm border-0 p-4 text-center">
+        <small class="text-muted d-block mb-1">Valor Negociado Total</small>
+        <h2 class="text-success mb-0 fw-bold">
+          <%= number_to_currency(@total_negotiated, unit: "R$") %>
+        </h2>
       </div>
     </div>
   </div>
 
-  <div class="card p-3">
-    <table class="table table-bordered table-hover text-center mb-0">
-      <thead class="table-light">
-        <tr>
+  <!-- Tabela de resultados -->
+  <div class="card shadow-sm border-0 rounded-4 p-3">
+    <table class="table table-hover align-middle text-center mb-0">
+      <thead class="table-light border-bottom">
+        <tr class="text-secondary small text-uppercase">
           <th>Condomínio</th>
           <th>Unidade</th>
           <th>Valor Negociado</th>
           <th>Monetização</th>
+          <th>Data</th>
         </tr>
       </thead>
       <tbody>
-        <% if @filtered_revenues.any? %>
+        <% if @filtered_revenues.present? %>
           <% @filtered_revenues.each do |rev| %>
             <tr>
-              <td><%= rev[:condominium] %></td>
-              <td><%= rev[:unit] %></td>
-              <td class="fw-bold"><%= number_to_currency(rev[:negotiated_value], unit: "R$") %></td>
-              <td class="fw-bold text-primary"><%= number_to_currency(rev[:monetization], unit: "R$") %></td>
+              <td class="fw-semibold text-dark"><%= rev.condominium_name %></td>
+              <td><%= rev.unit || "-" %></td>
+              <td class="fw-bold text-success">
+                <%= number_to_currency(rev.negotiated_value, unit: "R$") %>
+              </td>
+              <td class="fw-bold text-primary">
+                <%= number_to_currency(rev.monetization, unit: "R$") %>
+              </td>
+              <td class="text-muted"><%= rev.date.strftime("%d/%m/%Y") %></td>
             </tr>
           <% end %>
         <% else %>
           <tr>
-            <td colspan="4" class="text-muted py-4">Nenhum resultado encontrado para os filtros selecionados</td>
+            <td colspan="5" class="py-4 text-muted">
+              Nenhum resultado encontrado para os filtros selecionados.
+            </td>
           </tr>
         <% end %>
       </tbody>

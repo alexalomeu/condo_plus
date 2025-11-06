@@ -1,4 +1,5 @@
 class RealEstate < ApplicationRecord
+  has_many :condominiums
   has_many :responsibles, dependent: :destroy
   accepts_nested_attributes_for :responsibles, allow_destroy: true, reject_if: :all_blank
 
