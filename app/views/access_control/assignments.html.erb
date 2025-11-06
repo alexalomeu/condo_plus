@@ -1,6 +1,13 @@
-<div class="container mt-4">
-  <h1 class="mb-3 fw-bold">Atribuições</h1>
-  <p class="text-blue-muted mb-5">Gerencie os vínculos entre síndicos, condomínios e imobiliárias</p>
+<div class="container">
+  <div class="d-flex align-items-center mb-3">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
+      <i class="bi bi-arrow-left"></i>
+    <% end %>
+    <div>
+      <h2 class="fw-bold mb-0">Atribuições</h2>
+      <span class="text-blue-muted">Gerencie os vínculos entre síndicos, condomínios e imobiliárias</span>
+    </div>
+  </div>
 
   <div class="row g-4">
     <!-- Síndico → Condomínio -->
@@ -86,9 +93,9 @@
           <table class="table table-hover align-middle">
             <thead class="table-light">
               <tr>
-                <th>Síndico</th>
-                <th>Condomínio</th>
-                <th class="text-end">Ações</th>
+                <th class="text-blue-muted">Síndico</th>
+                <th class="text-blue-muted">Condomínio</th>
+                <th class="text-end text-blue-muted">Ações</th>
               </tr>
             </thead>
             <tbody id="managerAssignmentsTable">
@@ -107,9 +114,9 @@
           <table class="table table-hover align-middle">
             <thead class="table-light">
               <tr>
-                <th>Condomínio</th>
-                <th>Imobiliária</th>
-                <th class="text-end">Ações</th>
+                <th class="text-blue-muted">Condomínio</th>
+                <th class="text-blue-muted">Imobiliária</th>
+                <th class="text-end text-blue-muted">Ações</th>
               </tr>
             </thead>
             <tbody id="realEstateAssignmentsTable">

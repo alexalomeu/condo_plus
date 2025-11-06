@@ -1,8 +1,13 @@
-<div class="container mt-4">
+<div class="container">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-      <h2 class="fw-bold">Imobiliárias</h2>
-      <small class="text-blue-muted">Cadastro e gestão de imobiliárias</small>
+    <div class="d-flex align-items-center mb-3">
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
+        <i class="bi bi-arrow-left"></i>
+      <% end %>
+      <div>
+        <h2 class="fw-bold mb-0">Imobiliárias</h2>
+        <small class="text-blue-muted">Cadastro e gestão de imobiliárias</small>
+      </div>
     </div>
     <%= link_to "Nova Imobiliária", new_real_estate_path, class: "btn btn-primary rounded-3 px-4 py-2 fw-semibold" %>
   </div>

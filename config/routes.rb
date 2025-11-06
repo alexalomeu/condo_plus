@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'condominiums/index'
+  get 'condominiums/new'
+  get 'condominiums/edit'
+  get 'condominiums/show'
   get 'real_estates/index'
   get 'real_estates/new'
   get 'real_estates/create'
@@ -42,5 +46,11 @@ Rails.application.routes.draw do
     member do
       get :revenue
     end
+  end
+
+  resources :condominiums do
+    patch :approve, on: :member
+    patch :reject, on: :member
+    get :revenue, on: :member
   end
 end
