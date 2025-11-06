@@ -37,21 +37,42 @@ class RealEstatesController < ApplicationController
 
   def revenue
     @real_estate = RealEstate.find(params[:id])
-    @condominiums = @real_estate.condominiums.includes(:revenues)
-    @filtered_revenues = Revenue.joins(:condominium)
-      .where(condominiums: { real_estate_id: @real_estate.id })
-      .select(
-        'condominiums.nome AS condominium_name',
-        'revenues.unit',
-        'revenues.negotiated_value',
-        'revenues.monetization',
-        'revenues.date'
-      )
-      .order('condominiums.nome, revenues.date')
+    @condominiums = Condominium.where(real_estate_id: @real_estate.id)
 
+    # Inicia o escopo base
+    revenues_scope = Revenue.joins(:condominium)
+                            .where(condominiums: { real_estate_id: @real_estate.id })
+
+    # 🔹 Filtro por condomínio
+    if params[:condominium].present? && params[:condominium] != "all"
+      revenues_scope = revenues_scope.where(condominiums: { nome: params[:condominium] })
+    end
+
+    # 🔹 Filtro por data
+    if params[:start_date].present?
+      revenues_scope = revenues_scope.where("revenues.date >= ?", params[:start_date].to_date)
+    end
+
+    if params[:end_date].present?
+      revenues_scope = revenues_scope.where("revenues.date <= ?", params[:end_date].to_date)
+    end
+
+    # 🔹 Ordenação e seleção de campos
+    @filtered_revenues = revenues_scope
+      .select(
+        "condominiums.nome AS condominium_name",
+        "revenues.unit",
+        "revenues.negotiated_value",
+        "revenues.monetization",
+        "revenues.date"
+      )
+      .order("condominiums.nome, revenues.date")
+
+    # 🔹 Totais calculados com base nos filtros
     @total_negotiated   = @filtered_revenues.sum(&:negotiated_value)
     @total_monetization = @filtered_revenues.sum(&:monetization)
   end
+
 
   private
 

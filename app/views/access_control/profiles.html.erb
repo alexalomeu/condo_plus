@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h1 class="fw-bold">Perfis</h1>
-      <p class="text-muted mb-0">Gerencie perfis e permissões</p>
+      <p class="text-blue-muted mb-0">Gerencie perfis e permissões</p>
     </div>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profileModal" onclick="resetProfileForm()">
       <i class="bi bi-plus"></i> Novo Perfil
@@ -110,7 +110,7 @@
                               (@profile.permissions || {})["#{resource}_#{action}"],
                               class: "form-check-input" %>
                           <% else %>
-                            <span class="text-muted">–</span>
+                            <span class="text-blue-muted">–</span>
                           <% end %>
                         </td>
                       <% end %>
