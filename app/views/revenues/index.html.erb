@@ -1,0 +1,105 @@
+<div class="container">
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="fw-bold text-primary mb-1">Monetização</h1>
+      <p class="text-muted mb-0">Gestão de cobranças das imobiliárias parceiras</p>
+    </div>
+    <%= link_to "#", class: "btn btn-primary d-flex align-items-center" do %>
+      <i class="bi bi-download me-2"></i> Exportar Relatório
+    <% end %>
+  </div>
+
+  <!-- Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 p-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="bg-primary bg-opacity-10 p-3 rounded">
+            <i class="bi bi-credit-card text-primary fs-4"></i>
+          </div>
+          <div>
+            <p class="text-muted small mb-1">Total Recebido</p>
+            <h5 class="fw-bold mb-0 text-dark">R$ 1.200,00</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 p-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="bg-warning bg-opacity-10 p-3 rounded">
+            <i class="bi bi-clock text-warning fs-4"></i>
+          </div>
+          <div>
+            <p class="text-muted small mb-1">Pendente</p>
+            <h5 class="fw-bold mb-0 text-dark">R$ 1.500,00</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 p-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="bg-danger bg-opacity-10 p-3 rounded">
+            <i class="bi bi-credit-card text-danger fs-4"></i>
+          </div>
+          <div>
+            <p class="text-muted small mb-1">Atrasado</p>
+            <h5 class="fw-bold mb-0 text-dark">R$ 950,00</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-body p-4">
+      <table class="table align-middle">
+        <thead class="table-light">
+          <tr class="small text-uppercase text-muted">
+            <th>Imobiliária</th>
+            <th>Condomínio</th>
+            <th>Valor</th>
+            <th>Vencimento</th>
+            <th>Status</th>
+            <th class="text-end">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @billings = [
+            { id: 1, real_estate: "Imobiliária Prime", condominium: "Residencial Jardim das Flores", amount: "R$ 1.200,00", due_date: "25/01/2025", status: "Pago" },
+            { id: 2, real_estate: "Imobiliária Top", condominium: "Condomínio Vista Verde", amount: "R$ 1.500,00", due_date: "28/01/2025", status: "Pendente" },
+            { id: 3, real_estate: "Imobiliária Prime", condominium: "Edifício Solar", amount: "R$ 950,00", due_date: "20/01/2025", status: "Atrasado" }
+          ] %>
+
+          <% @billings.each do |billing| %>
+            <tr>
+              <td class="fw-semibold text-dark"><%= billing[:real_estate] %></td>
+              <td><%= billing[:condominium] %></td>
+              <td><%= billing[:amount] %></td>
+              <td><%= billing[:due_date] %></td>
+              <td>
+                <% badge_class = case billing[:status]
+                  when "Pago" then "badge bg-success"
+                  when "Pendente" then "badge bg-warning text-dark"
+                  when "Atrasado" then "badge bg-danger"
+                  else "badge bg-secondary"
+                end %>
+                <span class="<%= badge_class %>"><%= billing[:status] %></span>
+              </td>
+              <td class="text-end">
+                <%= link_to "#", class: "btn btn-outline-primary btn-sm" do %>
+                  <i class="bi bi-download me-1"></i> Baixar
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-class ManagersController < ApplicationController
+class ManagersController < DashboardController
   before_action :set_manager, only: [:edit, :update, :destroy, :approve, :reject, :show]
 
   def index

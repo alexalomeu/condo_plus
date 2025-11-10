@@ -39,15 +39,9 @@
     <% end %>
 
     <%# Monetização %>
-    <%= link_to billing_path, class: "nav-link text-yellow align-items-center justify-content-center sidebar-link" do %>
+    <%= link_to revenues_path, class: "nav-link text-yellow align-items-center justify-content-center sidebar-link" do %>
       <i class="bi bi-credit-card fs-4"></i>
       <span class="mt-1 d-none sidebar-expanded text-center">Monetização</span>
-    <% end %>
-
-    <%# Sair no final %>
-    <%= link_to logout_path, method: :delete, class: "nav-link text-danger align-items-center justify-content-center sidebar-link mt-auto mb-2" do %>
-      <i class="bi bi-box-arrow-right fs-4"></i>
-      <span class="mt-1 d-none sidebar-expanded text-center">Sair</span>
     <% end %>
 
     <%# Configuração %>
@@ -56,4 +50,10 @@
       <span class="mt-1 d-none sidebar-expanded text-center">Configuração</span>
     <% end %>
   </nav>
+  
+  <%# Sair no final %>
+  <%= link_to logout_path, method: :delete, class: "nav-link text-danger align-items-center justify-content-center sidebar-link mt-auto mb-2" do %>
+    <i class="bi bi-box-arrow-right fs-4"></i>
+    <span class="mt-1 d-none sidebar-expanded text-center">Sair</span>
+  <% end %>
 </aside>

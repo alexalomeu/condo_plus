@@ -10,12 +10,13 @@ Rails.application.routes.draw do
 
   # Dashboard principal
   get "dashboard", to: "dashboard#index", as: :dashboard
-  
+
   # Síndicos (Managers)
-  resources :managers
-  member do
-    patch :approve
-    patch :reject
+  resources :managers do
+    member do
+      patch :approve
+      patch :reject
+    end
   end
 
   # Imobiliárias Parceiras
@@ -40,8 +41,8 @@ Rails.application.routes.draw do
   get "access_control/assignments",      to: "access_control#assignments",    as: :assignments
 
   # Mensageria
-  get "chat", to: "chat#index", as: :chat
+  get "chat", to: "chats#index", as: :chat
 
   # Monetização
-  get "billing", to: "billing#index", as: :billing
+  resources :revenues, only: [:index]
 end

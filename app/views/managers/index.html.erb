@@ -1,14 +1,18 @@
-<div class="container py-4">
-  <div class="d-flex justify-content-between align-items-start mb-3">
-    <div>
-      <h1 class="h3">Síndicos</h1>
-      <p class="text-muted mb-0">Cadastro e gestão de síndicos</p>
+<div class="container p-4">
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center mb-3">
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
+        <i class="bi bi-arrow-left"></i>
+      <% end %>
+      <div>
+        <h2 class="fw-bold">Síndicos</h2>
+        <span class="text-blue-muted">Cadastro e gestão de síndicos</span>
+      </div>
     </div>
-    <div>
-      <button class="btn btn-primary" id="btn-new-manager" data-bs-toggle="modal" data-bs-target="#managerModal">
-        Novo Síndico
-      </button>
-    </div>
+    <button class="btn btn-primary" id="btn-new-manager" data-bs-toggle="modal" data-bs-target="#managerModal">
+      Novo Síndico
+    </button>
   </div>
 
   <% if flash[:notice] %>
@@ -17,67 +21,53 @@
     <div class="alert alert-danger"><%= flash[:alert] %></div>
   <% end %>
 
-  <div class="card">
-    <div class="card-body p-0">
-      <table class="table mb-0">
+  <!-- Tabela -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-hover align-middle">
         <thead class="table-light">
-          <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Contato</th>
-            <th>Condomínio</th>
-            <th>Status</th>
-            <th class="text-center">Aprovação</th>
-            <th class="text-end">Ações</th>
+          <tr class="small text-uppercase">
+            <th class="text-center text-blue-muted">Nome</th>
+            <th class="text-center text-blue-muted">CPF</th>
+            <th class="text-center text-blue-muted">Telefone</th>
+            <th class="text-center text-blue-muted">Condomínio</th>
+            <th class="text-center text-blue-muted">Status</th>
+            <th class="text-center text-blue-muted">Aprovação</th>
+            <th class="text-end text-blue-muted">Ações</th>
           </tr>
         </thead>
         <tbody>
           <% @managers.each do |m| %>
             <tr id="manager-row-<%= m.id %>">
-              <td class="align-middle"><%= m.name %></td>
-              <td class="align-middle"><%= m.cpf %></td>
-              <td class="align-middle">
-                <div class="small">
-                  <div><i class="bi bi-envelope"></i> <%= m.email %></div>
-                  <div><i class="bi bi-telephone"></i> <%= m.phone %></div>
-                </div>
+              <td class="fw-medium text-blue text-center"><%= m.name %></td>
+              <td class="text-blue text-center"><%= m.cpf %></td>
+              <td class="text-blue text-center"><%= m.phone %></td>
+              <td class="text-blue text-center"><%= m.condominium&.nome %></td>
+              <td class="text-center">
+                <% status_class = case m.status
+                  when "Aprovado" then "badge bg-success"
+                  when "Rejeitado" then "badge bg-danger"
+                  when "Pendente" then "badge bg-warning text-dark"
+                  else "badge bg-secondary"
+                end %>
+                <span class="<%= status_class %>"><%= m.status %></span>
               </td>
-              <td class="align-middle"><%= m.condominium %></td>
-              <td class="align-middle">
-                <% badge_class = case m.status
-                   when "Aprovado" then "badge bg-success"
-                   when "Rejeitado" then "badge bg-danger"
-                   else "badge bg-secondary"
-                   end %>
-                <span class="<%= badge_class %>"><%= m.status %></span>
-              </td>
-              <td class="align-middle text-center">
-                <%= button_to approve_manager_path(m), method: :patch, class: "btn btn-sm btn-outline-success", form: { data: { turbo: false } } do %>
-                  Aprovar
+              <td class="text-center">
+                <%= link_to approve_manager_path(m), method: :patch, class: "btn btn-success btn-sm me-1 rounded-pill" do %>
+                  <i class="bi bi-check-lg"></i>
                 <% end %>
-                <%= button_to reject_manager_path(m), method: :patch, class: "btn btn-sm btn-outline-danger", form: { data: { turbo: false } } do %>
-                  Rejeitar
+                <%= link_to reject_manager_path(m), method: :patch, class: "btn btn-danger btn-sm rounded-pill" do %>
+                  <i class="bi bi-x-lg"></i>
                 <% end %>
               </td>
-              <td class="align-middle text-end">
-                <div class="btn-group" role="group">
-                  <button class="btn btn-outline-primary btn-sm btn-edit-manager"
-                          data-bs-toggle="modal"
-                          data-bs-target="#managerModal"
-                          data-id="<%= m.id %>"
-                          data-name="<%= j m.name %>"
-                          data-cpf="<%= m.cpf %>"
-                          data-email="<%= m.email %>"
-                          data-phone="<%= m.phone %>"
-                          data-condominium="<%= j m.condominium %>"
-                          data-status="<%= m.status %>">
-                    Editar
-                  </button>
+              <td class="text-end">
+                <%= link_to edit_manager_path(m), class: "btn btn-outline-primary btn-sm" do %>
+                  <i class="bi bi-pencil"></i>
+                <% end %>
 
-                  <%= link_to "Perfil", manager_path(m), class: "btn btn-sm btn-secondary" %>
-
-                  <%= button_to manager_path(m), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-sm btn-danger" %>
-                </div>
+                <%= link_to manager_path(m), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-outline-danger btn-sm" do %>
+                  <i class="bi bi-trash"></i>
+                <% end %>
               </td>
             </tr>
           <% end %>
@@ -86,57 +76,3 @@
     </div>
   </div>
 </div>
-
-<%= render "form_modal", manager: @manager %>
-
-<%# Inline JS to populate modal on edit and reset on create %>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const managerModal = document.getElementById("managerModal");
-    const bsModal = new bootstrap.Modal(managerModal);
-
-    managerModal.addEventListener("show.bs.modal", function (event) {
-      const button = event.relatedTarget; // botão que abriu o modal
-      const modalTitle = managerModal.querySelector(".modal-title");
-      const form = managerModal.querySelector("form");
-
-      const idField = form.querySelector("#manager_id");
-      const nameField = form.querySelector("#manager_name");
-      const cpfField = form.querySelector("#manager_cpf");
-      const emailField = form.querySelector("#manager_email");
-      const phoneField = form.querySelector("#manager_phone");
-      const condominiumField = form.querySelector("#manager_condominium");
-      const statusField = form.querySelector("#manager_status");
-
-      if (button && button.classList.contains("btn-edit-manager")) {
-        modalTitle.textContent = "Editar Síndico";
-        idField.value = button.dataset.id;
-        nameField.value = button.dataset.name || "";
-        cpfField.value = button.dataset.cpf || "";
-        emailField.value = button.dataset.email || "";
-        phoneField.value = button.dataset.phone || "";
-        condominiumField.value = button.dataset.condominium || "";
-        statusField.value = button.dataset.status || "Pendente";
-
-        // alterar action para update
-        form.action = `/managers/${idField.value}`;
-        const methodInput = form.querySelector("input[name='_method']");
-        if (methodInput) methodInput.value = "patch";
-      } else {
-        modalTitle.textContent = "Novo Síndico";
-        idField.value = "";
-        nameField.value = "";
-        cpfField.value = "";
-        emailField.value = "";
-        phoneField.value = "";
-        condominiumField.value = "";
-        statusField.value = "Pendente";
-
-        // action para create
-        form.action = "/managers";
-        const methodInput = form.querySelector("input[name='_method']");
-        if (methodInput) methodInput.value = "post";
-      }
-    });
-  });
-</script>

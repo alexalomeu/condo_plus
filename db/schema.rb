@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_07_194433) do
+ActiveRecord::Schema.define(version: 2025_11_10_150741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,25 @@ ActiveRecord::Schema.define(version: 2025_11_07_194433) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cpf"
+    t.string "gender"
+    t.date "birth_date"
+    t.string "marital_status"
+    t.date "admission_date"
+    t.string "contract_type"
+    t.string "creci"
+    t.string "address"
+    t.string "neighborhood"
+    t.string "city"
+    t.string "number"
+    t.string "zip_code"
+    t.string "complement"
+    t.string "courses"
+    t.text "selected_teams"
+    t.jsonb "week_schedule"
+    t.string "status", default: "Pendente"
+    t.bigint "condominium_id"
+    t.index ["condominium_id"], name: "index_managers_on_condominium_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -106,6 +125,7 @@ ActiveRecord::Schema.define(version: 2025_11_07_194433) do
   end
 
   add_foreign_key "condominiums", "real_estates"
+  add_foreign_key "managers", "condominiums"
   add_foreign_key "responsibles", "real_estates"
   add_foreign_key "revenues", "condominiums"
 end

@@ -1,6 +1,7 @@
 Condominium.destroy_all
 RealEstate.destroy_all
 Revenue.destroy_all
+Manager.destroy_all 
 
 puts "🏢 Criando imobiliárias..."
 
@@ -15,8 +16,6 @@ real_estate1 = RealEstate.create!(
   responsible_email: "carlos.silva@prime.com.br"
 )
 
-puts "✅ Imobiliária criada: #{real_estate1.name}"
-
 real_estate2 = RealEstate.create!(
   name: "Imobiliária Global",
   cnpj: "98.765.432/0001-55",
@@ -27,9 +26,6 @@ real_estate2 = RealEstate.create!(
   responsible_phone: "(21) 99876-5432",
   responsible_email: "ana.pereira@global.com.br"
 )
-
-
-puts "✅ Imobiliária criada: #{real_estate2.name}"
 
 puts "🌇 Criando condomínios de exemplo..."
 
@@ -191,16 +187,11 @@ condominiums = [
   }
 ]
 
-
-puts "Passei por aqui"
-
 condominiums.each do |attrs|
   Condominium.find_or_create_by!(nome: attrs[:nome]) do |condo|
     condo.assign_attributes(attrs)
   end
 end
-
-puts "✅ Condominios Criados com sucesso!"
 
 puts "💰 Criando receitas (revenues)..."
 
@@ -217,6 +208,51 @@ Condominium.all.each do |c|
   end
 end
 
-puts "✅ Receitas criadas com sucesso!"
+puts "🧑‍💼 Criando managers..."
 
-puts "✅ Seed de condomínios, imobiliárias e receitas criados com sucesso!"
+teams = [
+  "VENDA - ORATÓRIO",
+  "VENDA - PARQUE",
+  "VENDA - PIRES",
+  "VENDA - CAMPESTRE",
+  "VENDA - GILDA",
+  "VENDA - MKT"
+]
+
+week_schedule = [
+  { day: "Domingo", available: false, hours: "" },
+  { day: "Segunda-feira", available: true, hours: "09:00 - 17:00" },
+  { day: "Terça-feira", available: true, hours: "09:00 - 17:00" },
+  { day: "Quarta-feira", available: true, hours: "09:00 - 17:00" },
+  { day: "Quinta-feira", available: true, hours: "09:00 - 17:00" },
+  { day: "Sexta-feira", available: true, hours: "09:00 - 17:00" },
+  { day: "Sábado", available: true, hours: "09:00 - 17:00" }
+]
+
+Condominium.all.each_with_index do |condo, i|
+  Manager.create!(
+    condominium: condo,
+    name: ["João Almeida", "Marina Costa", "Ricardo Tavares", "Fernanda Souza", "Paulo Henrique"][i],
+    cpf: "123.456.789-0#{i}",
+    phone: "(11) 9#{rand(1000..9999)}-#{rand(1000..9999)}",
+    email: "manager#{i + 1}@#{condo.nome.parameterize}.com",
+    gender: ["Masculino", "Feminino"].sample,
+    birth_date: Date.new(1980 + i, rand(1..12), rand(1..28)),
+    marital_status: ["Solteiro(a)", "Casado(a)", "Divorciado(a)"].sample,
+    admission_date: Date.today - rand(200..1000),
+    contract_type: ["CLT", "Autônomo", "Prestador"].sample,
+    creci: "CRECI-#{rand(10000..99999)}",
+    address: "Rua #{['das Palmeiras', 'dos Limoeiros', 'das Hortências', 'das Rosas'].sample}",
+    neighborhood: "Bairro #{['Central', 'Novo Horizonte', 'Alto da Serra', 'Jardim América'].sample}",
+    city: condo.cidade,
+    number: rand(1..500).to_s,
+    zip_code: "#{rand(10000..99999)}-#{rand(100..999)}",
+    complement: "Apto #{rand(1..100)}",
+    courses: ["Administração condominial", "Gestão de pessoas", "Segurança patrimonial"].sample,
+    selected_teams: teams.sample(2),
+    week_schedule: week_schedule
+  )
+end
+
+puts "✅ Seed completo!"
+
