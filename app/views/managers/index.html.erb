@@ -1,19 +1,18 @@
-<div class="container p-4">
-  <!-- Header -->
+<div class="container">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <div class="d-flex align-items-center mb-3">
       <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
         <i class="bi bi-arrow-left"></i>
       <% end %>
       <div>
-        <h2 class="fw-bold">Síndicos</h2>
+        <h2 class="fw-bold mb-0">Síndicos</h2>
         <span class="text-blue-muted">Cadastro e gestão de síndicos</span>
       </div>
     </div>
     <button class="btn btn-primary" id="btn-new-manager" data-bs-toggle="modal" data-bs-target="#managerModal">
       Novo Síndico
     </button>
-  </div>
+  </div> 
 
   <% if flash[:notice] %>
     <div class="alert alert-success"><%= flash[:notice] %></div>
@@ -22,57 +21,55 @@
   <% end %>
 
   <!-- Tabela -->
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <table class="table table-hover align-middle">
-        <thead class="table-light">
-          <tr class="small text-uppercase">
-            <th class="text-center text-blue-muted">Nome</th>
-            <th class="text-center text-blue-muted">CPF</th>
-            <th class="text-center text-blue-muted">Telefone</th>
-            <th class="text-center text-blue-muted">Condomínio</th>
-            <th class="text-center text-blue-muted">Status</th>
-            <th class="text-center text-blue-muted">Aprovação</th>
-            <th class="text-end text-blue-muted">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @managers.each do |m| %>
-            <tr id="manager-row-<%= m.id %>">
-              <td class="fw-medium text-blue text-center"><%= m.name %></td>
-              <td class="text-blue text-center"><%= m.cpf %></td>
-              <td class="text-blue text-center"><%= m.phone %></td>
-              <td class="text-blue text-center"><%= m.condominium&.nome %></td>
-              <td class="text-center">
-                <% status_class = case m.status
-                  when "Aprovado" then "badge bg-success"
-                  when "Rejeitado" then "badge bg-danger"
-                  when "Pendente" then "badge bg-warning text-dark"
-                  else "badge bg-secondary"
-                end %>
-                <span class="<%= status_class %>"><%= m.status %></span>
-              </td>
-              <td class="text-center">
-                <%= link_to approve_manager_path(m), method: :patch, class: "btn btn-success btn-sm me-1 rounded-pill" do %>
-                  <i class="bi bi-check-lg"></i>
-                <% end %>
-                <%= link_to reject_manager_path(m), method: :patch, class: "btn btn-danger btn-sm rounded-pill" do %>
-                  <i class="bi bi-x-lg"></i>
-                <% end %>
-              </td>
-              <td class="text-end">
-                <%= link_to edit_manager_path(m), class: "btn btn-outline-primary btn-sm" do %>
-                  <i class="bi bi-pencil"></i>
-                <% end %>
+  <div class="card shadow-sm border-0 rounded-4 p-4">
+    <table class="table table-hover align-middle">
+      <thead class="border-bottom">
+        <tr class="small text-uppercase">
+          <th class="text-center text-blue-muted">Nome</th>
+          <th class="text-center text-blue-muted">CPF</th>
+          <th class="text-center text-blue-muted">Telefone</th>
+          <th class="text-center text-blue-muted">Condomínio</th>
+          <th class="text-center text-blue-muted">Status</th>
+          <th class="text-center text-blue-muted">Aprovação</th>
+          <th class="text-end text-blue-muted">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @managers.each do |m| %>
+          <tr id="manager-row-<%= m.id %>">
+            <td class="fw-medium text-blue text-center"><%= m.name %></td>
+            <td class="text-blue text-center"><%= m.cpf %></td>
+            <td class="text-blue text-center"><%= m.phone %></td>
+            <td class="text-blue text-center"><%= m.condominium&.nome %></td>
+            <td class="text-center">
+              <% status_class = case m.status
+                when "Aprovado" then "badge bg-success"
+                when "Rejeitado" then "badge bg-danger"
+                when "Pendente" then "badge bg-warning text-dark"
+                else "badge bg-secondary"
+              end %>
+              <span class="<%= status_class %>"><%= m.status %></span>
+            </td>
+            <td class="text-center">
+              <%= link_to approve_manager_path(m), method: :patch, class: "btn btn-success btn-sm me-1 rounded-pill" do %>
+                <i class="bi bi-check-lg"></i>
+              <% end %>
+              <%= link_to reject_manager_path(m), method: :patch, class: "btn btn-danger btn-sm rounded-pill" do %>
+                <i class="bi bi-x-lg"></i>
+              <% end %>
+            </td>
+            <td class="text-end">
+              <%= link_to edit_manager_path(m), class: "btn btn-outline-primary btn-sm" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
 
-                <%= link_to manager_path(m), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-outline-danger btn-sm" do %>
-                  <i class="bi bi-trash"></i>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+              <%= link_to manager_path(m), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-outline-danger btn-sm" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
