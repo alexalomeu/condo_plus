@@ -10,18 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_06_161431) do
+ActiveRecord::Schema.define(version: 2025_11_07_194433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "condominia", force: :cascade do |t|
-    t.string "name"
-    t.bigint "real_estate_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["real_estate_id"], name: "index_condominia_on_real_estate_id"
-  end
 
   create_table "condominiums", force: :cascade do |t|
     t.bigint "real_estate_id", null: false
@@ -54,7 +46,16 @@ ActiveRecord::Schema.define(version: 2025_11_06_161431) do
     t.string "telefone_administracao"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "Pendente"
     t.index ["real_estate_id"], name: "index_condominiums_on_real_estate_id"
+  end
+
+  create_table "managers", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -104,7 +105,6 @@ ActiveRecord::Schema.define(version: 2025_11_06_161431) do
     t.index ["condominium_id"], name: "index_revenues_on_condominium_id"
   end
 
-  add_foreign_key "condominia", "real_estates"
   add_foreign_key "condominiums", "real_estates"
   add_foreign_key "responsibles", "real_estates"
   add_foreign_key "revenues", "condominiums"

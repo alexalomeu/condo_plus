@@ -1,5 +1,4 @@
-class RealEstatesController < ApplicationController
-  layout "dashboard" 
+class RealEstatesController < DashboardController
   before_action :set_real_estate, only: [:edit, :update, :destroy]
 
   def index

@@ -1,4 +1,4 @@
-class CondominiumsController < ApplicationController
+class CondominiumsController < DashboardController
   before_action :set_condominium, only: [:show, :edit, :update, :destroy, :approve, :reject, :revenue]
 
   def index

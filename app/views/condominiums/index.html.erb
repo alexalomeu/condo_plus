@@ -1,2 +1,86 @@
-<h1>Condominiums#index</h1>
-<p>Find me in app/views/condominiums/index.html.erb</p>
+<!-- app/views/condominiums/index.html.erb -->
+<div class="container">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center mb-3">
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
+        <i class="bi bi-arrow-left"></i>
+      <% end %>
+      <div>
+        <h2 class="fw-bold">Condomínios</h2>
+        <span class="text-blue-muted">Cadastro e gestão de condomínios</span>
+      </div>
+    </div>
+    <%= link_to "Novo Condomínio", new_condominium_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr class="small text-uppercase">
+            <th class="text-center text-blue-muted">Nome</th>
+            <th class="text-center text-center text-blue-muted">Endereço</th>
+            <th class="text-center text-blue-muted">Unidades</th>
+            <th class="text-center text-blue-muted">Monetização Total</th>
+            <th class="text-center text-blue-muted">Monetização Pendente</th>
+            <th class="text-center text-blue-muted">Status</th>
+            <th class="text-center text-blue-muted">Aprovação</th>
+            <th class="text-center text-blue-muted">Relatórios</th>
+            <th class="text-end text-blue-muted">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @condominiums.each do |condo| %>
+            <tr>
+              <td class="fw-medium text-blue"><%= condo.nome %></td>
+              <td class="text-blue">
+                <i class="bi bi-geo-alt-fill me-1"></i>
+                <%= "#{condo.endereco}, #{condo.numero}" %>
+              </td>
+              <td class="text-blue"><%= condo.unidades_por_torre %></td>
+              <td class="fw-semibold text-blue">
+                R$ <%= condo.revenues.sum(:monetization).to_s(:delimited) %>
+              </td>
+              <td class="fw-semibold text-blue">
+                R$ <%= condo.revenues.where("date > ?", Date.today.beginning_of_month).sum(:monetization).to_s(:delimited) %>
+              </td>
+              <td>
+                <% status_class = case condo.status
+                  when "Aprovado" then "badge bg-success"
+                  when "Rejeitado" then "badge bg-danger"
+                  when "Pendente" then "badge bg-warning text-dark"
+                  else "badge bg-secondary"
+                end %>
+                <span class="<%= status_class %>"><%= condo.status %></span>
+              </td>
+              <td class="text-center">
+                <%= link_to approve_condominium_path(condo), method: :patch, class: "btn btn-success btn-sm me-1 rounded-pill" do %>
+                  <i class="bi bi-check-lg"></i>
+                <% end %>
+                <%= link_to reject_condominium_path(condo), method: :patch, class: "btn btn-danger btn-sm rounded-pill" do %>
+                  <i class="bi bi-x-lg"></i>
+                <% end %>
+              </td>
+              <td class="text-center">
+                <%= link_to revenue_condominium_path(condo), class: "btn btn-outline-primary btn-sm" do %>
+                  <i class="bi bi-download me-1"></i>Relatório
+                <% end %>
+                <%= link_to "#", class: "btn btn-outline-primary btn-sm" do %>
+                  <i class="bi bi-qr-code me-1"></i>QR Code
+                <% end %>
+              </td>
+              <td class="text-end">
+                <%= link_to edit_condominium_path(condo), class: "btn btn-outline-primary btn-sm" do %>
+                  <i class="bi bi-building"></i>
+                <% end %>
+                <%= link_to condominium_path(condo), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-outline-danger btn-sm" do %>
+                  <i class="bi bi-trash"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

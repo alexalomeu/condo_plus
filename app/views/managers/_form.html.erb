@@ -1,0 +1,55 @@
+<div class="modal fade" id="managerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <%= form_with model: manager, url: managers_path, local: true do |f| %>
+        <div class="modal-header">
+          <h5 class="modal-title">Novo Síndico</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <%= hidden_field_tag :id, nil, id: "manager_id" %>
+          <%# We will use a hidden _method field to switch create/update in JS %>
+          <%= hidden_field_tag :_method, "post" %>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <%= label_tag :name, "Nome Completo", class: "form-label" %>
+              <%= text_field_tag "manager[name]", manager.name, id: "manager_name", class: "form-control", required: true %>
+            </div>
+
+            <div class="col-md-6">
+              <%= label_tag :cpf, "CPF", class: "form-label" %>
+              <%= text_field_tag "manager[cpf]", manager.cpf, id: "manager_cpf", class: "form-control", required: true %>
+            </div>
+
+            <div class="col-md-6">
+              <%= label_tag :email, "Email", class: "form-label" %>
+              <%= email_field_tag "manager[email]", manager.email, id: "manager_email", class: "form-control", required: true %>
+            </div>
+
+            <div class="col-md-6">
+              <%= label_tag :phone, "Telefone", class: "form-label" %>
+              <%= text_field_tag "manager[phone]", manager.phone, id: "manager_phone", class: "form-control", required: true %>
+            </div>
+
+            <div class="col-md-6">
+              <%= label_tag :condominium, "Condomínio", class: "form-label" %>
+              <%= text_field_tag "manager[condominium]", manager.condominium, id: "manager_condominium", class: "form-control" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= label_tag :status, "Status", class: "form-label" %>
+              <%= select_tag "manager[status]", options_for_select(["Aprovado","Pendente","Rejeitado"], manager.status || "Pendente"), id: "manager_status", class: "form-select" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

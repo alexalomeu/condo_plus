@@ -1,0 +1,173 @@
+<div class="min-vh-100 bg-light pb-5">
+  <!-- Header fixo -->
+  <div class="d-flex align-items-center mb-4">
+    <div class="d-flex align-items-center mb-3">
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
+        <i class="bi bi-arrow-left"></i>
+      <% end %>
+      <div>
+        <h2 class="fw-bold mb-0">
+          <%= @condominium.persisted? ? "Editar Condomínio" : "Novo Condomínio" %>
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <%= form_with(model: @condominium, url: @condominium.persisted? ? condominium_path(@condominium) : condominiums_path, local: true, class: "needs-validation") do |f| %>
+
+      <!-- Dados do Condomínio -->
+      <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-white border-0">
+          <h5 class="text-blue mb-0">Dados do Condomínio</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <%= f.label :nome, "Nome do Condomínio *", class: "form-label" %>
+              <%= f.text_field :nome, class: "form-control", placeholder: "Digite o nome" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :quantidade_torres, "Quantidade de Torres *", class: "form-label" %>
+              <%= f.number_field :quantidade_torres, class: "form-control", placeholder: "Digite a quantidade" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :unidades_por_torre, "Unidades por Torre *", class: "form-label" %>
+              <%= f.number_field :unidades_por_torre, class: "form-control", placeholder: "Digite a quantidade" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :nomes_torres, "Nomes das Torres", class: "form-label" %>
+              <%= f.text_field :nomes_torres, class: "form-control", placeholder: "Ex: Torre A, Torre B..." %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :quantidade_andares, "Quantidade de Andares *", class: "form-label" %>
+              <%= f.number_field :quantidade_andares, class: "form-control", placeholder: "Digite a quantidade" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :unidades_por_andar, "Unidades por Andar *", class: "form-label" %>
+              <%= f.number_field :unidades_por_andar, class: "form-control", placeholder: "Digite a quantidade" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Localização -->
+      <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-white border-0">
+          <h5 class="text-blue mb-0">Localização</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-4">
+            <div class="col-md-12">
+              <%= f.label :endereco, "Endereço *", class: "form-label" %>
+              <%= f.text_field :endereco, class: "form-control", placeholder: "Digite o endereço" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :bairro, "Bairro *", class: "form-label" %>
+              <%= f.text_field :bairro, class: "form-control", placeholder: "Digite o bairro" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :cidade, "Cidade *", class: "form-label" %>
+              <%= f.text_field :cidade, class: "form-control", placeholder: "Digite a cidade" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :numero, "Número *", class: "form-label" %>
+              <%= f.text_field :numero, class: "form-control", placeholder: "Digite o número" %>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :cep, "CEP *", class: "form-label" %>
+              <%= f.text_field :cep, class: "form-control", placeholder: "00000-000" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalhes -->
+      <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-white border-0">
+          <h5 class="text-blue mb-0">Detalhes</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <%= f.label :tipo_condominio, "Tipo de Condomínio", class: "form-label" %>
+              <div class="d-flex flex-wrap gap-3">
+                <% ["Residencial", "Comercial", "Misto"].each do |tipo| %>
+                  <div class="form-check">
+                    <%= f.radio_button :tipo_condominio, tipo, class: "form-check-input" %>
+                    <%= f.label :"tipo_condominio_#{tipo}", tipo, class: "form-check-label" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :possui_area_lazer, "Possui Área de Lazer?", class: "form-label" %>
+              <div class="d-flex flex-wrap gap-3">
+                <% [["Sim", true], ["Não", false]].each do |texto, valor| %>
+                  <div class="form-check">
+                    <%= f.radio_button :possui_area_lazer, valor, class: "form-check-input" %>
+                    <%= f.label :"possui_area_lazer_#{texto}", texto, class: "form-check-label" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <%= f.label :possui_academia, "Possui Academia?", class: "form-label" %>
+              <div class="d-flex flex-wrap gap-3">
+                <% [["Sim", true], ["Não", false]].each do |texto, valor| %>
+                  <div class="form-check">
+                    <%= f.radio_button :possui_academia, valor, class: "form-check-input" %>
+                    <%= f.label :"possui_academia_#{texto}", texto, class: "form-check-label" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segurança -->
+      <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-white border-0">
+          <h5 class="text-blue mb-0">Segurança</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <% {
+              portaria_24h: "Portaria 24h",
+              cameras_seguranca: "Câmeras de Segurança",
+              controle_acesso: "Controle de Acesso",
+              cerca_eletrica: "Cerca Elétrica",
+              alarme_incendio: "Alarme de Incêndio"
+            }.each do |campo, label| %>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <%= f.check_box campo, class: "form-check-input" %>
+                  <%= f.label campo, label, class: "form-check-label" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botões -->
+      <div class="d-flex justify-content-end mt-4">
+        <%= link_to "Cancelar", condominiums_path, class: "btn btn-danger me-2" %>
+        <%= f.submit "Salvar", class: "btn btn-primary px-4" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

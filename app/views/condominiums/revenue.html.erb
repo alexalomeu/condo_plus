@@ -1,0 +1,59 @@
+<div class="container">
+
+  <!-- HEADER PADRÃO -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center">
+      <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
+        <i class="bi bi-arrow-left"></i>
+      <% end %>
+      <div>
+        <h2 class="fw-bold mb-0">Relatório de Monetização - <%= @condominium.nome %></h2>
+        <span class="text-blue-muted">Histórico mensal de monetização</span>
+      </div>
+    </div>
+    <%= link_to "#", class: "btn btn-primary d-flex align-items-center" do %>
+      <i class="bi bi-download me-2"></i>
+      Exportar
+    <% end %>
+  </div>
+
+  <!-- RESUMO -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm rounded-4 p-4">
+        <p class="text-blue-muted small mb-1">Total Monetização</p>
+        <p class="fs-3 fw-bold text-blue mb-0">R$ 19.200,00</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card shadow-sm rounded-4 p-4">
+        <p class="text-blue-muted small mb-1">Valor Negociado Total</p>
+        <p class="fs-3 fw-bold text-yellow mb-0">R$ 1.360.000,00</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELA -->
+  <div class="card shadow-sm rounded-4 p-4">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr class="text-center text-uppercase">
+          <th class="text-blue-muted">Imobiliária</th>
+          <th class="text-blue-muted">Unidade</th>
+          <th class="text-blue-muted">Valor Negociado</th>
+          <th class="text-blue-muted">Monetização</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @revenues.each do |revenue| %>
+          <tr class="text-center">
+            <td class="text-blue"><%= revenue.condominium&.real_estate&.name %></td>
+            <td class="text-blue"><%= revenue.unit %></td>
+            <td class="fw-semibold text-blue"><%= number_to_currency(revenue.negotiated_value, unit: "R$", separator: ",", delimiter: ".") %></td>
+            <td class="fw-semibold text-blue"><%= number_to_currency(revenue.monetization, unit: "R$", separator: ",", delimiter: ".") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

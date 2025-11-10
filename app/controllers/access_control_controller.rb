@@ -1,7 +1,6 @@
 require "ostruct"
 
-class AccessControlController < ApplicationController
-  layout "dashboard" 
+class AccessControlController < DashboardController
 
     def index; end
 
