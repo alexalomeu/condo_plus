@@ -6,6 +6,10 @@ class ManagersController < DashboardController
     @manager = Manager.new
   end
 
+  def new
+    @manager = Manager.new
+  end
+
   def create
     @manager = Manager.new(manager_params)
     if @manager.save

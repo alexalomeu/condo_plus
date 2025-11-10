@@ -9,9 +9,7 @@
         <span class="text-blue-muted">Cadastro e gestão de síndicos</span>
       </div>
     </div>
-    <button class="btn btn-primary" id="btn-new-manager" data-bs-toggle="modal" data-bs-target="#managerModal">
-      Novo Síndico
-    </button>
+    <%= link_to "Novo Síndico", new_manager_path, class: "btn btn-primary" %>
   </div> 
 
   <% if flash[:notice] %>

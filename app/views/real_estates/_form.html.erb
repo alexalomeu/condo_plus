@@ -1,3 +1,16 @@
+<div class="d-flex align-items-center mb-4">
+  <div class="d-flex align-items-center mb-3">
+    <%= link_to "javascript:history.back()", class: "text-decoration-none text-blue me-3 d-flex align-items-center" do %>
+      <i class="bi bi-arrow-left"></i>
+    <% end %>
+    <div>
+      <h2 class="fw-bold mb-0">
+        <%= @real_estate.persisted? ? "Editar Imobiliária" : "Nova Imobiliária" %>
+      </h2>
+    </div>
+  </div>
+</div>
+
 <%= form_with(model: @real_estate, local: true, class: "needs-validation") do |f| %>
   <div class="card mb-3">
     <div class="card-body">
