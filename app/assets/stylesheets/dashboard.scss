@@ -37,7 +37,7 @@ body {
   background-color: #0311492e !important;
 }
 
-.bg-blue {
+.bg-primary {
   background-color: #031149 !important;
 }
 
@@ -54,21 +54,28 @@ body {
 .btn-outline-primary:hover {
   color: white !important;
   background-color: #031149 !important;
-  
 }
 
-.btn-primary{
+.btn-outline-primary {
+  color: #031149 !important;
+  border-color: #031149 !important;
+}
+
+.btn-outline-primary:hover {
   color: white !important;
   background-color: #031149 !important;
 }
 
-.btn-primary:hover {
-  color: #031149 !important;
-  border-color: #031149 !important;
+.btn-danger {
+  color: #dc3545 !important;
+  border-color: #dc3545 !important;
   background-color: white !important;
 }
 
-
+.btn-danger:hover{
+  color: white !important;
+  background-color: #dc3545 !important;
+}
 
 .lucide {
   width: 22px;
