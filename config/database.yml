@@ -2,10 +2,13 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres_condon_user
+  password: lKexqWeHwX9qO3TUfVQYLkvCKCA9EFpr
+  host: dpg-d49957ggjchc73f9ij30-a.oregon-postgres.render.com
 
 development:
   <<: *default
-  database: condo_plus_development
+  database: postgres_condon
 
 test:
   <<: *default
@@ -13,4 +16,7 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  database: postgres_condon
+  username: postgres_condon_user
+  password: lKexqWeHwX9qO3TUfVQYLkvCKCA9EFpr
+  host: dpg-d49957ggjchc73f9ij30-a.oregon-postgres.render.com

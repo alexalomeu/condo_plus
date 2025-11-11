@@ -3,6 +3,12 @@ RealEstate.destroy_all
 Revenue.destroy_all
 Manager.destroy_all 
 
+puts "Limpando o banco de dados..."
+ActiveRecord::Base.connection.disable_referential_integrity do
+  [Manager, Condominium, Revenue].each(&:delete_all)
+end
+puts "Banco limpo com sucesso!"
+
 puts "🏢 Criando imobiliárias..."
 
 real_estate1 = RealEstate.create!(
