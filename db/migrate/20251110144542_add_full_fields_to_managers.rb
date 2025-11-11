@@ -1,6 +1,5 @@
 class AddFullFieldsToManagers < ActiveRecord::Migration[5.2]
   def change
-    add_column :managers, :condominium, :string
     add_column :managers, :gender, :string
     add_column :managers, :birth_date, :date
     add_column :managers, :marital_status, :string
