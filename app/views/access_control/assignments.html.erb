@@ -151,12 +151,6 @@
       return;
     }
 
-    // Regra: um síndico só pode estar em 1 condomínio
-    if (managerAssignments.some(a => a.managerId === managerId)) {
-      alert("Este síndico já está vinculado a um condomínio.");
-      return;
-    }
-
     managerAssignments.push({ managerId, condoId });
 
     const table = document.getElementById("managerAssignmentsTable");
@@ -192,12 +186,7 @@
       alert("Este condomínio já possui uma imobiliária atribuída.");
       return;
     }
-
-    // Regra: uma imobiliária pode estar apenas em 1 condomínio (se quiser)
-    if (realEstateAssignments.some(a => a.realEstateId === realEstateId)) {
-      alert("Esta imobiliária já está vinculada a um condomínio.");
-      return;
-    }
+  }
 
     realEstateAssignments.push({ condoId, realEstateId });
 
