@@ -135,42 +135,143 @@
   const realEstateAssignments = [];
 
   function assignManager() {
-    const manager = document.getElementById("managerSelect").value;
-    const condo = document.getElementById("managerCondoSelect").value;
-    if (!manager || !condo) {
+    const managerSelect = document.getElementById("managerSelect");
+    const condoSelect = document.getElementById("managerCondoSelect");
+    const managerId = managerSelect.value;
+    const condoId = condoSelect.value;
+
+    if (!managerId || !condoId) {
       alert("Selecione um síndico e um condomínio.");
       return;
     }
+
+    // Regra: um condomínio só pode ter 1 síndico
+    if (managerAssignments.some(a => a.condoId === condoId)) {
+      alert("Este condomínio já possui um síndico atribuído.");
+      return;
+    }
+
+    // Regra: um síndico só pode estar em 1 condomínio
+    if (managerAssignments.some(a => a.managerId === managerId)) {
+      alert("Este síndico já está vinculado a um condomínio.");
+      return;
+    }
+
+    managerAssignments.push({ managerId, condoId });
+
     const table = document.getElementById("managerAssignmentsTable");
+    if (table.querySelector(".text-center")) table.innerHTML = "";
+
     table.innerHTML += `
-      <tr>
-        <td>${document.querySelector("#managerSelect option:checked").text}</td>
-        <td>${document.querySelector("#managerCondoSelect option:checked").text}</td>
+      <tr data-condo-id="${condoId}" data-manager-id="${managerId}">
+        <td>${managerSelect.options[managerSelect.selectedIndex].text}</td>
+        <td>${condoSelect.options[condoSelect.selectedIndex].text}</td>
         <td class='text-end'>
-          <button class='btn btn-sm btn-outline-danger' onclick='this.closest("tr").remove()'>
+          <button class='btn btn-sm btn-outline-danger' onclick='removeManagerAssignment("${managerId}", "${condoId}")'>
             <i class='bi bi-trash'></i>
           </button>
         </td>
       </tr>`;
+
+    updateManagerOptions();
   }
 
   function assignRealEstate() {
-    const condo = document.getElementById("realEstateCondoSelect").value;
-    const realEstate = document.getElementById("realEstateSelect").value;
-    if (!condo || !realEstate) {
+    const condoSelect = document.getElementById("realEstateCondoSelect");
+    const realEstateSelect = document.getElementById("realEstateSelect");
+    const condoId = condoSelect.value;
+    const realEstateId = realEstateSelect.value;
+
+    if (!condoId || !realEstateId) {
       alert("Selecione uma imobiliária e um condomínio.");
       return;
     }
+
+    // Regra: um condomínio só pode ter 1 imobiliária
+    if (realEstateAssignments.some(a => a.condoId === condoId)) {
+      alert("Este condomínio já possui uma imobiliária atribuída.");
+      return;
+    }
+
+    // Regra: uma imobiliária pode estar apenas em 1 condomínio (se quiser)
+    if (realEstateAssignments.some(a => a.realEstateId === realEstateId)) {
+      alert("Esta imobiliária já está vinculada a um condomínio.");
+      return;
+    }
+
+    realEstateAssignments.push({ condoId, realEstateId });
+
     const table = document.getElementById("realEstateAssignmentsTable");
+    if (table.querySelector(".text-center")) table.innerHTML = "";
+
     table.innerHTML += `
-      <tr>
-        <td>${document.querySelector("#realEstateCondoSelect option:checked").text}</td>
-        <td>${document.querySelector("#realEstateSelect option:checked").text}</td>
+      <tr data-condo-id="${condoId}" data-real-estate-id="${realEstateId}">
+        <td>${condoSelect.options[condoSelect.selectedIndex].text}</td>
+        <td>${realEstateSelect.options[realEstateSelect.selectedIndex].text}</td>
         <td class='text-end'>
-          <button class='btn btn-sm btn-outline-danger' onclick='this.closest("tr").remove()'>
+          <button class='btn btn-sm btn-outline-danger' onclick='removeRealEstateAssignment("${condoId}", "${realEstateId}")'>
             <i class='bi bi-trash'></i>
           </button>
         </td>
       </tr>`;
+
+    updateRealEstateOptions();
+  }
+
+  // Remove vínculo de síndico e atualiza selects
+  function removeManagerAssignment(managerId, condoId) {
+    const index = managerAssignments.findIndex(a => a.managerId === managerId && a.condoId === condoId);
+    if (index !== -1) managerAssignments.splice(index, 1);
+
+    document.querySelector(`tr[data-condo-id="${condoId}"][data-manager-id="${managerId}"]`)?.remove();
+    if (managerAssignments.length === 0) {
+      document.getElementById("managerAssignmentsTable").innerHTML = `<tr><td colspan="3" class="text-center text-blue-muted">Nenhum vínculo</td></tr>`;
+    }
+
+    updateManagerOptions();
+  }
+
+  // Remove vínculo de imobiliária e atualiza selects
+  function removeRealEstateAssignment(condoId, realEstateId) {
+    const index = realEstateAssignments.findIndex(a => a.condoId === condoId && a.realEstateId === realEstateId);
+    if (index !== -1) realEstateAssignments.splice(index, 1);
+
+    document.querySelector(`tr[data-condo-id="${condoId}"][data-real-estate-id="${realEstateId}"]`)?.remove();
+    if (realEstateAssignments.length === 0) {
+      document.getElementById("realEstateAssignmentsTable").innerHTML = `<tr><td colspan="3" class="text-center text-blue-muted">Nenhum vínculo</td></tr>`;
+    }
+
+    updateRealEstateOptions();
+  }
+
+  // Atualiza selects desabilitando opções já usadas
+  function updateManagerOptions() {
+    const condoSelect = document.getElementById("managerCondoSelect");
+    const managerSelect = document.getElementById("managerSelect");
+
+    Array.from(condoSelect.options).forEach(opt => {
+      if (!opt.value) return;
+      opt.disabled = managerAssignments.some(a => a.condoId === opt.value);
+    });
+
+    Array.from(managerSelect.options).forEach(opt => {
+      if (!opt.value) return;
+      opt.disabled = managerAssignments.some(a => a.managerId === opt.value);
+    });
+  }
+
+  function updateRealEstateOptions() {
+    const condoSelect = document.getElementById("realEstateCondoSelect");
+    const realEstateSelect = document.getElementById("realEstateSelect");
+
+    Array.from(condoSelect.options).forEach(opt => {
+      if (!opt.value) return;
+      opt.disabled = realEstateAssignments.some(a => a.condoId === opt.value);
+    });
+
+    Array.from(realEstateSelect.options).forEach(opt => {
+      if (!opt.value) return;
+      opt.disabled = realEstateAssignments.some(a => a.realEstateId === opt.value);
+    });
   }
 </script>

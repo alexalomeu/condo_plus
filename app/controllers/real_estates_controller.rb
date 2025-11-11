@@ -46,12 +46,12 @@ class RealEstatesController < DashboardController
     revenues_scope = Revenue.joins(:condominium)
                             .where(condominiums: { real_estate_id: @real_estate.id })
 
-    # 🔹 Filtro por condomínio
+    # Filtro por condomínio
     if params[:condominium].present? && params[:condominium] != "all"
       revenues_scope = revenues_scope.where(condominiums: { nome: params[:condominium] })
     end
 
-    # 🔹 Filtro por data
+    # Filtro por data
     if params[:start_date].present?
       revenues_scope = revenues_scope.where("revenues.date >= ?", params[:start_date].to_date)
     end
@@ -60,7 +60,7 @@ class RealEstatesController < DashboardController
       revenues_scope = revenues_scope.where("revenues.date <= ?", params[:end_date].to_date)
     end
 
-    # 🔹 Ordenação e seleção de campos
+    # Ordenação e seleção de campos
     @filtered_revenues = revenues_scope
       .select(
         "condominiums.nome AS condominium_name",
@@ -71,7 +71,7 @@ class RealEstatesController < DashboardController
       )
       .order("condominiums.nome, revenues.date")
 
-    # 🔹 Totais calculados com base nos filtros
+    # Totais calculados com base nos filtros
     @total_negotiated   = @filtered_revenues.sum(&:negotiated_value)
     @total_monetization = @filtered_revenues.sum(&:monetization)
   end
