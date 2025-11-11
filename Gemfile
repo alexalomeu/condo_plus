@@ -40,8 +40,9 @@ gem 'sprockets-rails', '~> 3.2.2'
 
 gem "bootstrap", "~> 5.3"
 gem 'sassc-rails', '~> 2.1.2'
-
-
+gem 'terser'
+gem "jsbundling-rails"
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
