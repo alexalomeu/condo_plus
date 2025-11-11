@@ -53,10 +53,10 @@
               <span class="<%= status_class %> text-center"><%= condo.status %></span>
             </td>
             <td class="text-center">
-              <%= link_to approve_condominium_path(condo), method: :patch, class: "btn btn-success btn-sm rounded-pill" do %>
+              <%= button_to approve_condominium_path(condo), method: :patch, class: "btn btn-success btn-sm rounded-pill" do %>
                 <i class="bi bi-check-lg"></i>
               <% end %>
-              <%= link_to reject_condominium_path(condo), method: :patch, class: "btn btn-danger btn-sm rounded-pill" do %>
+              <%= button_to reject_condominium_path(condo), method: :patch, class: "btn btn-danger btn-sm rounded-pill" do %>
                 <i class="bi bi-x-lg"></i>
               <% end %>
             </td>
