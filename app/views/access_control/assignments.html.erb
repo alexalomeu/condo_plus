@@ -207,60 +207,46 @@
     updateRealEstateOptions();
   }
 
-  // Remove vínculo de síndico e atualiza selects
   function removeManagerAssignment(managerId, condoId) {
     const index = managerAssignments.findIndex(a => a.managerId === managerId && a.condoId === condoId);
     if (index !== -1) managerAssignments.splice(index, 1);
 
     document.querySelector(`tr[data-condo-id="${condoId}"][data-manager-id="${managerId}"]`)?.remove();
     if (managerAssignments.length === 0) {
-      document.getElementById("managerAssignmentsTable").innerHTML = `<tr><td colspan="3" class="text-center text-blue-muted">Nenhum vínculo</td></tr>`;
+      document.getElementById("managerAssignmentsTable").innerHTML =
+        `<tr><td colspan="3" class="text-center text-blue-muted">Nenhum vínculo</td></tr>`;
     }
 
     updateManagerOptions();
   }
 
-  // Remove vínculo de imobiliária e atualiza selects
   function removeRealEstateAssignment(condoId, realEstateId) {
     const index = realEstateAssignments.findIndex(a => a.condoId === condoId && a.realEstateId === realEstateId);
     if (index !== -1) realEstateAssignments.splice(index, 1);
 
     document.querySelector(`tr[data-condo-id="${condoId}"][data-real-estate-id="${realEstateId}"]`)?.remove();
     if (realEstateAssignments.length === 0) {
-      document.getElementById("realEstateAssignmentsTable").innerHTML = `<tr><td colspan="3" class="text-center text-blue-muted">Nenhum vínculo</td></tr>`;
+      document.getElementById("realEstateAssignmentsTable").innerHTML =
+        `<tr><td colspan="3" class="text-center text-blue-muted">Nenhum vínculo</td></tr>`;
     }
 
     updateRealEstateOptions();
   }
 
-  // Atualiza selects desabilitando opções já usadas
+  // Atualiza opções dos selects, desabilitando condomínios já usados
   function updateManagerOptions() {
     const condoSelect = document.getElementById("managerCondoSelect");
-    const managerSelect = document.getElementById("managerSelect");
-
     Array.from(condoSelect.options).forEach(opt => {
       if (!opt.value) return;
       opt.disabled = managerAssignments.some(a => a.condoId === opt.value);
-    });
-
-    Array.from(managerSelect.options).forEach(opt => {
-      if (!opt.value) return;
-      opt.disabled = managerAssignments.some(a => a.managerId === opt.value);
     });
   }
 
   function updateRealEstateOptions() {
     const condoSelect = document.getElementById("realEstateCondoSelect");
-    const realEstateSelect = document.getElementById("realEstateSelect");
-
     Array.from(condoSelect.options).forEach(opt => {
       if (!opt.value) return;
       opt.disabled = realEstateAssignments.some(a => a.condoId === opt.value);
-    });
-
-    Array.from(realEstateSelect.options).forEach(opt => {
-      if (!opt.value) return;
-      opt.disabled = realEstateAssignments.some(a => a.realEstateId === opt.value);
     });
   }
 </script>
